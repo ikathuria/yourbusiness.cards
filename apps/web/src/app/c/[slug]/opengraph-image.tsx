@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { seedCardBySlug } from "@/features/cards/seed";
+import { getPublishedCard } from "@/features/cards/queries";
 
 /**
  * Per-card Open Graph image — the branded preview that unfurls when a card link
@@ -12,7 +12,7 @@ export const contentType = "image/png";
 
 export default async function OgImage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const card = seedCardBySlug(slug);
+  const card = await getPublishedCard(slug);
   const name = card?.businessName ?? "YourBusiness.Cards";
   const tagline = card?.tagline ?? "Stunning digital business cards";
 

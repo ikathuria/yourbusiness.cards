@@ -193,10 +193,12 @@ Tasks:
 **Goal:** Cards persist in Supabase with row-level security so an account only sees its own cards.
 
 Tasks:
-- [ ] Create `supabase/` migrations: `accounts` (incl. `plan`), `business_cards` (slug unique, template id, theme overrides JSON, published flag), `card_links`, `card_views` — Done when: `supabase db push` applies cleanly.
-- [ ] Add RLS policies: owner-only read/write on own rows; public read on published cards only — Done when: anon can read a published card but cannot read drafts or others' rows.
-- [ ] Wire the Supabase client in `lib/` (server + browser); `/c/[slug]` reads from Supabase instead of seed data — Done when: the public renderer loads a real DB row.
-- [ ] Slug generation + uniqueness + reserved-word guard (`api`, `c`, `templates`, `login`) — Done when: duplicate names yield distinct slugs and reserved paths are blocked.
+- [x] Create `supabase/` migrations: `accounts` (incl. `plan`), `business_cards` (slug unique, template id, theme overrides JSON, published flag), `card_links`, `card_views` — Done when: `supabase db push` applies cleanly. *(`supabase/migrations/0001_initial_schema.sql` + `seed.sql`. ⏳ apply pending user's Supabase project — see `docs/04-supabase-setup.md`.)*
+- [x] Add RLS policies: owner-only read/write on own rows; public read on published cards only — Done when: anon can read a published card but cannot read drafts or others' rows. *(RLS on all 4 tables; public read = `published = true`; owner writes = `account_id = auth.uid()`; security-definer trigger hardened.)*
+- [x] Wire the Supabase client in `lib/` (server + browser); `/c/[slug]` reads from Supabase instead of seed data — Done when: the public renderer loads a real DB row. *(`lib/supabase/{server,client,config}.ts` via `@supabase/ssr`; `features/cards/queries.ts` `getPublishedCard()` with seed fallback; renderer + OG image wired.)*
+- [~] Slug generation + uniqueness + reserved-word guard (`api`, `c`, `templates`, `login`) — Done when: duplicate names yield distinct slugs and reserved paths are blocked. *(DB enforces unique + format. Generation + reserved-word guard land with the create flow in M5.)*
+
+> ◐ **Code complete — pending verification.** Schema + RLS + client + query layer written and build-green via the seed fallback. **Next: user creates a free Supabase project, runs the SQL, and adds env keys** (`docs/04-supabase-setup.md`); then `/c/[slug]` reads live from the DB.
 
 ---
 
