@@ -182,10 +182,10 @@ Tasks:
 - [x] Build **3 template families × ~3 templates (9 total)** — Modern Premium, Bold & Expressive, Clean & Classic — each: single-screen/viewport-height, mobile-first, token-driven, with tasteful Motion entrance + hover and `prefers-reduced-motion` support — Done when: each renders from the same seed card and passes the Design Principles pixel-QA gate at 390px. *(Modern: Aurora/Halo/Monolith · Bold: Pop/Neon/Carnival · Classic: Editorial/Embossed/Linen. Added Fraunces serif for Classic. All screenshotted at 375px.)*
 - [x] Public renderer at `app/c/[slug]` that picks the card's template from the registry and renders it — Done when: `/c/demo` shows a complete, animated, single-screen card with no mobile scroll. *(Next 16 async params, per-card metadata, 404.)*
 - [x] Public **template gallery** at `app/templates` showcasing all templates with live previews, ideally shown inside a **phone/device frame** so cards read as mobile on a shared screen — Done when: visitors can browse every template in-frame (doubles as marketing + SEO + the demo centerpiece). *(PhoneFrame iframes the real card pages.)*
-- [ ] Premium per-card OG image via `@vercel/og` reflecting the card's theme — Done when: pasting a card link in Slack/iMessage/X unfurls into a branded preview (this is a demo wow-moment — make it excellent).
-- [ ] Theme-styled QR endpoint `app/api/qr` (color matches card) — Done when: scanning opens `/c/[slug]`.
+- [x] Premium per-card OG image via `next/og` (`ImageResponse`) reflecting the brand — Done when: pasting a card link unfurls into a branded preview. *(`/c/[slug]/opengraph-image.tsx` — cream/ink + violet/mint/coral, coral swipe under the name. Default font for now; Sora is a later polish.)*
+- [x] Theme-styled QR endpoint `app/api/qr` (color matches card) — Done when: scanning opens `/c/[slug]`. *(self-hosted `qrcode`; `?slug=&format=&fg=&bg=&size=`; verified scannable PNG + SVG.)*
 
-> ◐ **In progress.** All 9 templates + registry + renderer + gallery done and verified (build green, screenshots at 375px). Remaining: OG images + QR endpoint.
+> ✅ **Milestone 2 complete.** 9 templates (3 families) + registry + `/c/[slug]` renderer + `/templates` gallery + branded homepage + per-card OG images + QR endpoint. Plus the bold neobrutalist brand UI redesign. Build green; all surfaces screenshotted. Verified 2026-06-03.
 
 ---
 

@@ -101,7 +101,7 @@ repo-root/
 | Milestone | Status | Notes |
 |---|---|---|
 | 1. Scaffold + design foundation | ✅ done | Next 16.2.7 + React 19.2.4 + Tailwind 4 + Motion 12.40; `design/` tokens/fonts/motion; build + dev verified |
-| 2. Design system & template gallery | ◐ in progress | 9 templates (3 families) + registry + `/c/[slug]` renderer + `/templates` gallery done; OG + QR remaining |
+| 2. Design system & template gallery | ✅ done | 9 templates (3 families) + registry + `/c/[slug]` renderer + `/templates` gallery + branded homepage + per-card OG images + `/api/qr`. Bold neobrutalist brand UI. |
 | 3. Data layer (Supabase + RLS) | ☐ todo | multi-tenant schema, slug uniqueness |
 | 4. Auth + dashboard | ☐ todo | magic-link, designed card list, new-card → template picker |
 | 5. Card editor (tiered) | ☐ todo | live preview, light tweaks (all) + deep customization (Pro) |
@@ -114,8 +114,8 @@ repo-root/
 
 **Demo-critical path:** M1 (scaffold + design system) → M2 (gallery, go big) → thin M3+M5 (minimal persistence + create/editor, skip login) → M8 (deploy + live QR) → polish → M7 (AI) only if ahead.
 
-**In progress now:** Milestone 2 — all 9 templates (Modern: Aurora/Halo/Monolith · Bold: Pop/Neon/Carnival · Classic: Editorial/Embossed/Linen), the registry, the `/c/[slug]` renderer, and the `/templates` gallery are built. Fonts include Fraunces serif for Classic. **The real homepage `/` and gallery now use a bold, dialed-back neobrutalist brand UI** (cream/ink + violet/mint/coral; see `docs/03-design-system.md` → Brand site palette) — anchored on the Pop template's energy but recolored so the site has its own identity. Shared `SiteNav`/`SiteFooter`/`Sticker` in `src/components/site/`.
-**Next up:** finish M2 — per-card OG images (`@vercel/og`) and the theme-styled QR endpoint (`/api/qr`). Then M3 swaps seed data for Supabase.
+**Milestone 2 done.** All 9 templates (Modern: Aurora/Halo/Monolith · Bold: Pop/Neon/Carnival · Classic: Editorial/Embossed/Linen), the registry, the `/c/[slug]` renderer, the `/templates` gallery, the branded neobrutalist homepage, per-card OG images (`/c/[slug]/opengraph-image.tsx`), and the self-hosted QR endpoint (`/api/qr`) are built and verified. Fonts: Sora/Inter/Fraunces/JetBrains Mono. Brand site palette = cream/ink + violet/mint/coral (see `docs/03-design-system.md`).
+**Next up:** Milestone 3 — Supabase data layer. Create migrations (`accounts`, `business_cards`, `card_links`, `card_views`) + RLS, wire the Supabase client, and swap the `/c/[slug]` renderer + gallery from seed data to the DB. (Still seed-backed today.)
 
 **Toolchain note (Windows):** scaffold/install commands must run in **native PowerShell** with **absolute `--prefix` paths** — the Bash tool's git-bash mangles Windows paths, and a drifting cwd previously created a nested `apps/web/apps/web` duplicate. Always `Set-Location` to the repo root first.
 
