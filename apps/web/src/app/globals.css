@@ -1,0 +1,112 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens — the source of truth for color/elevation/radius.
+ * Semantic roles live as CSS variables here; @theme maps them to Tailwind
+ * utilities (bg-surface, text-muted, border-border, rounded-xl, shadow-glow…).
+ * TS mirrors of the programmatic tokens live in src/design/tokens.ts.
+ */
+
+:root {
+  /* Color roles — light */
+  --background: #fbfbfd;
+  --surface: #ffffff;
+  --surface-elevated: #ffffff;
+  --foreground: #0b0b12;
+  --muted: #6b6b7b;
+  --border: #e8e8ef;
+  --brand: #6d5ef7;
+  --brand-foreground: #ffffff;
+  --accent: #f25ca2;
+  --ring: #6d5ef7;
+
+  /* Easing (for CSS transitions that don't use Motion) */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-emphasized: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #07070a;
+    --surface: #0f0f16;
+    --surface-elevated: #16161f;
+    --foreground: #f4f4f8;
+    --muted: #9a9aa8;
+    --border: #23232e;
+    --brand: #8b7dff;
+    --brand-foreground: #0b0b12;
+    --accent: #ff7ab6;
+    --ring: #8b7dff;
+  }
+}
+
+@theme inline {
+  /* Colors → utilities like bg-background, text-foreground, border-border */
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-accent: var(--accent);
+  --color-ring: var(--ring);
+
+  /* Fonts (provided by next/font in src/design/fonts.ts) */
+  --font-display: var(--font-display);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+
+  /* Radii → rounded-sm … rounded-2xl */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-2xl: 2rem;
+
+  /* Elevation → shadow-soft / shadow-elevated / shadow-glow */
+  --shadow-soft: 0 1px 2px rgba(11, 11, 18, 0.04), 0 8px 24px rgba(11, 11, 18, 0.06);
+  --shadow-elevated: 0 12px 40px rgba(11, 11, 18, 0.12);
+  --shadow-glow: 0 0 0 1px rgba(109, 94, 247, 0.18), 0 20px 60px -12px rgba(109, 94, 247, 0.45);
+
+  /* Display type sizes → text-display-1 / text-display-2 */
+  --text-display-1: clamp(2.75rem, 6vw, 4.5rem);
+  --text-display-1--line-height: 1.02;
+  --text-display-1--letter-spacing: -0.03em;
+  --text-display-2: clamp(2.25rem, 4.5vw, 3.5rem);
+  --text-display-2--line-height: 1.05;
+  --text-display-2--letter-spacing: -0.02em;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Brand gradient + display helpers used across landing + templates */
+@layer utilities {
+  .bg-brand-gradient {
+    background-image: linear-gradient(135deg, var(--brand), var(--accent));
+  }
+  .text-brand-gradient {
+    background-image: linear-gradient(135deg, var(--brand), var(--accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .font-display {
+    font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

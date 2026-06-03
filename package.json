@@ -1,0 +1,16 @@
+{
+  "name": "yourbusiness-cards",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Stunning single-screen digital business cards for any business. See PROJECT.md for context.",
+  "scripts": {
+    "dev": "npm --prefix apps/web run dev",
+    "build": "npm --prefix apps/web run build",
+    "start": "npm --prefix apps/web run start",
+    "lint": "npm --prefix apps/web run lint",
+    "install:web": "npm --prefix apps/web install"
+  },
+  "comments": {
+    "structure": "Root delegates to apps/web; no npm/pnpm workspaces until a real 2nd package exists (see PLAN.md Phase 3.5)."
+  }
+}
