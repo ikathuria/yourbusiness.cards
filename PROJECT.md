@@ -67,6 +67,7 @@ repo-root/
 │        ├─ design/             # design system: tokens, fonts, motion, theme vars
 │        ├─ templates/          # template REGISTRY (modern/ bold/ classic/) — shared by
 │        │                      #   gallery, editor preview, renderer, AI generator
+│        ├─ components/         # shared UI: PhoneFrame, site/ (Nav, Footer, Sticker)
 │        ├─ features/
 │        │  ├─ cards/           # card model, editor, validation, tests
 │        │  ├─ billing/         # stripe + 3-tier plan gating
@@ -113,7 +114,7 @@ repo-root/
 
 **Demo-critical path:** M1 (scaffold + design system) → M2 (gallery, go big) → thin M3+M5 (minimal persistence + create/editor, skip login) → M8 (deploy + live QR) → polish → M7 (AI) only if ahead.
 
-**In progress now:** Milestone 2 — all 9 templates (Modern: Aurora/Halo/Monolith · Bold: Pop/Neon/Carnival · Classic: Editorial/Embossed/Linen), the registry, the `/c/[slug]` renderer, and the `/templates` gallery are built and verified. Fonts now include Fraunces serif for Classic.
+**In progress now:** Milestone 2 — all 9 templates (Modern: Aurora/Halo/Monolith · Bold: Pop/Neon/Carnival · Classic: Editorial/Embossed/Linen), the registry, the `/c/[slug]` renderer, and the `/templates` gallery are built. Fonts include Fraunces serif for Classic. **The real homepage `/` and gallery now use a bold, dialed-back neobrutalist brand UI** (cream/ink + violet/mint/coral; see `docs/03-design-system.md` → Brand site palette) — anchored on the Pop template's energy but recolored so the site has its own identity. Shared `SiteNav`/`SiteFooter`/`Sticker` in `src/components/site/`.
 **Next up:** finish M2 — per-card OG images (`@vercel/og`) and the theme-styled QR endpoint (`/api/qr`). Then M3 swaps seed data for Supabase.
 
 **Toolchain note (Windows):** scaffold/install commands must run in **native PowerShell** with **absolute `--prefix` paths** — the Bash tool's git-bash mangles Windows paths, and a drifting cwd previously created a nested `apps/web/apps/web` duplicate. Always `Set-Location` to the repo root first.

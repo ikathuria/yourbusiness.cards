@@ -23,6 +23,15 @@
   /* Easing (for CSS transitions that don't use Motion) */
   --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-emphasized: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Brand "site" palette — the neobrutalist marketing UI (homepage + gallery).
+     Distinct from any single template; fixed (does not flip with dark mode). */
+  --ink: #161320;
+  --paper: #f7f4ee;
+  --paper-2: #fffdf8;
+  --mint: #21cfa0;
+  --coral: #ff7a5c;
+  /* brand violet reuses --brand (#6d5ef7) */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -52,6 +61,13 @@
   --color-brand-foreground: var(--brand-foreground);
   --color-accent: var(--accent);
   --color-ring: var(--ring);
+
+  /* Brand site palette → bg-ink, bg-paper, text-ink, bg-mint, bg-coral, … */
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-mint: var(--mint);
+  --color-coral: var(--coral);
 
   /* Fonts (provided by next/font in src/design/fonts.ts) */
   --font-display: var(--font-display);

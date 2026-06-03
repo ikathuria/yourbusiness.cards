@@ -29,6 +29,20 @@ Display sizes: `text-display-1`, `text-display-2` (fluid `clamp`).
 Durations `fast .18 / base .32 / slow .6`; easing `emphasized [0.16,1,0.3,1]` for entrances.
 Every animated surface must respect `prefers-reduced-motion` (`useReducedMotion`).
 
+## Brand "site" palette (marketing UI — homepage + gallery)
+
+The website's own UI uses a **bold, dialed-back neobrutalist** identity that is
+deliberately distinct from any single template (so the brand doesn't look like one card):
+
+- **Palette (fixed, does not flip with dark mode):** `--paper` cream `#f7f4ee`, `--paper-2`
+  `#fffdf8`, `--ink` `#161320`, with accents **brand violet** `#6d5ef7`, **mint** `#21cfa0`,
+  **coral** `#ff7a5c`. Exposed as `bg-paper`, `bg-ink`, `text-ink`, `bg-mint`, `bg-coral`, etc.
+- **Style:** 2px ink borders, soft 3–4px hard offset shadows (`shadow-[4px_4px_0_0_#161320]`),
+  chunky `font-display` (Sora) headings, sticker buttons, a coral highlight swipe under hero words.
+  Intensity is ~80% of full neobrutalism — characterful but not exhausting.
+- **Shared components:** `src/components/site/` — `Sticker` (the button/link), `SiteNav`, `SiteFooter`.
+- Anchored on the **Pop** template's energy (the founder's favorite), but recolored to the brand.
+
 ## The three template families (Milestone 2)
 - **Modern Premium** — glassy, big type, gradients, smooth motion.
 - **Bold & Expressive** — vivid color, display fonts, playful motion.

@@ -4,6 +4,8 @@ import { templatesByFamily } from "@/templates/registry";
 import { FAMILY_LABELS, type TemplateFamily } from "@/templates/types";
 import { sampleCardFor } from "@/features/cards/seed";
 import { PhoneFrame } from "@/components/PhoneFrame";
+import { SiteNav } from "@/components/site/SiteNav";
+import { SiteFooter } from "@/components/site/SiteFooter";
 
 export const metadata: Metadata = {
   title: "Templates",
@@ -12,37 +14,54 @@ export const metadata: Metadata = {
 };
 
 const FAMILY_ORDER: TemplateFamily[] = ["modern", "bold", "classic"];
+const FAMILY_ACCENT: Record<TemplateFamily, string> = {
+  modern: "bg-brand text-white",
+  bold: "bg-coral text-ink",
+  classic: "bg-mint text-ink",
+};
+const TIER_STYLE: Record<string, string> = {
+  free: "bg-paper-2 text-ink",
+  pro: "bg-mint text-ink",
+  premium: "bg-brand text-white",
+};
 
 export default function TemplatesGallery() {
   const byFamily = templatesByFamily();
 
   return (
-    <main className="min-h-[100dvh] bg-background px-6 py-20">
+    <div className="min-h-[100dvh] bg-paper text-ink">
+      <SiteNav />
+
       {/* Header */}
-      <header className="mx-auto max-w-4xl text-center">
-        <p className="font-mono text-sm uppercase tracking-[0.2em] text-muted">The gallery</p>
-        <h1 className="font-display mt-4 text-[length:var(--text-display-1)] font-extrabold leading-[1.02] tracking-tight text-foreground">
+      <header className="mx-auto max-w-4xl px-6 pt-10 pb-6 text-center">
+        <span className="inline-block -rotate-1 rounded-lg border-2 border-ink bg-mint px-3 py-1 text-sm font-extrabold shadow-[3px_3px_0_0_#161320]">
+          The gallery
+        </span>
+        <h1 className="font-display mt-6 text-[2.75rem] font-extrabold leading-[1.0] tracking-tight sm:text-6xl">
           Templates that look{" "}
-          <span className="text-brand-gradient">expensive.</span>
+          <span className="relative inline-block">
+            <span className="relative z-10">expensive.</span>
+            <span className="absolute inset-x-0 bottom-1 z-0 h-4 -rotate-1 bg-coral" />
+          </span>
         </h1>
-        <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-muted">
+        <p className="mx-auto mt-6 max-w-xl text-lg font-semibold text-ink/65">
           Professionally designed, single-screen cards across three styles. Every business
           finds its look — then makes it theirs in seconds.
         </p>
       </header>
 
       {/* Families */}
-      <div className="mx-auto mt-20 max-w-6xl space-y-24">
+      <div className="mx-auto max-w-6xl space-y-20 px-6 py-12">
         {FAMILY_ORDER.map((family) => {
           const items = byFamily[family] ?? [];
           if (items.length === 0) return null;
           return (
             <section key={family}>
-              <div className="mb-10 flex items-baseline justify-between border-b border-border pb-4">
-                <h2 className="font-display text-2xl font-bold tracking-tight text-foreground">
+              <div className="mb-10 flex items-center gap-3">
+                <span className={`rounded-lg border-2 border-ink px-3 py-1.5 font-display text-lg font-extrabold shadow-[3px_3px_0_0_#161320] ${FAMILY_ACCENT[family]}`}>
                   {FAMILY_LABELS[family]}
-                </h2>
-                <span className="font-mono text-xs text-muted">
+                </span>
+                <span className="font-display text-sm font-bold text-ink/50">
                   {items.length} template{items.length === 1 ? "" : "s"}
                 </span>
               </div>
@@ -52,31 +71,17 @@ export default function TemplatesGallery() {
                   const card = sampleCardFor(t.id);
                   return (
                     <article key={t.id} className="flex flex-col items-center">
-                      <PhoneFrame src={`/c/${card.slug}`} title={`${t.name} preview`} />
+                      <Link href={`/c/${card.slug}`} className="rounded-[2.4rem] border-2 border-ink shadow-[5px_5px_0_0_#161320] transition-transform hover:-translate-y-1">
+                        <PhoneFrame src={`/c/${card.slug}`} title={`${t.name} preview`} />
+                      </Link>
                       <div className="mt-5 w-full max-w-[16rem] text-center">
                         <div className="flex items-center justify-center gap-2">
-                          <h3 className="font-display text-lg font-semibold text-foreground">
-                            {t.name}
-                          </h3>
-                          <span
-                            className={`rounded-full px-2 py-0.5 text-[0.65rem] font-semibold uppercase tracking-wide ${
-                              t.tier === "free"
-                                ? "bg-brand/10 text-brand"
-                                : t.tier === "pro"
-                                  ? "bg-accent/10 text-accent"
-                                  : "bg-foreground/10 text-foreground"
-                            }`}
-                          >
+                          <h3 className="font-display text-lg font-extrabold text-ink">{t.name}</h3>
+                          <span className={`rounded-md border-2 border-ink px-2 py-0.5 text-[0.65rem] font-extrabold uppercase tracking-wide ${TIER_STYLE[t.tier]}`}>
                             {t.tier}
                           </span>
                         </div>
-                        <p className="mt-1 text-sm text-muted">{t.description}</p>
-                        <Link
-                          href={`/c/${card.slug}`}
-                          className="mt-3 inline-block font-mono text-xs text-brand underline-offset-4 hover:underline"
-                        >
-                          Open full card &rarr;
-                        </Link>
+                        <p className="mt-1 text-sm font-medium text-ink/60">{t.description}</p>
                       </div>
                     </article>
                   );
@@ -86,6 +91,8 @@ export default function TemplatesGallery() {
           );
         })}
       </div>
-    </main>
+
+      <SiteFooter />
+    </div>
   );
 }
