@@ -100,7 +100,7 @@ repo-root/
 | Milestone | Status | Notes |
 |---|---|---|
 | 1. Scaffold + design foundation | ✅ done | Next 16.2.7 + React 19.2.4 + Tailwind 4 + Motion 12.40; `design/` tokens/fonts/motion; build + dev verified |
-| 2. Design system & template gallery | ☐ todo | **core/moat** — 9 templates × 3 families, registry, renderer, gallery, OG, QR |
+| 2. Design system & template gallery | ◐ in progress | 9 templates (3 families) + registry + `/c/[slug]` renderer + `/templates` gallery done; OG + QR remaining |
 | 3. Data layer (Supabase + RLS) | ☐ todo | multi-tenant schema, slug uniqueness |
 | 4. Auth + dashboard | ☐ todo | magic-link, designed card list, new-card → template picker |
 | 5. Card editor (tiered) | ☐ todo | live preview, light tweaks (all) + deep customization (Pro) |
@@ -113,8 +113,8 @@ repo-root/
 
 **Demo-critical path:** M1 (scaffold + design system) → M2 (gallery, go big) → thin M3+M5 (minimal persistence + create/editor, skip login) → M8 (deploy + live QR) → polish → M7 (AI) only if ahead.
 
-**In progress now:** Milestone 1 done. The design-system demo renders at `/` (replaced by the real landing in M2).
-**Next up:** Milestone 2 — the template registry + 9 templates across 3 families + public renderer `/c/[slug]` + `/templates` gallery + OG images + QR. This is the moat; invest the most here.
+**In progress now:** Milestone 2 — all 9 templates (Modern: Aurora/Halo/Monolith · Bold: Pop/Neon/Carnival · Classic: Editorial/Embossed/Linen), the registry, the `/c/[slug]` renderer, and the `/templates` gallery are built and verified. Fonts now include Fraunces serif for Classic.
+**Next up:** finish M2 — per-card OG images (`@vercel/og`) and the theme-styled QR endpoint (`/api/qr`). Then M3 swaps seed data for Supabase.
 
 **Toolchain note (Windows):** scaffold/install commands must run in **native PowerShell** with **absolute `--prefix` paths** — the Bash tool's git-bash mangles Windows paths, and a drifting cwd previously created a nested `apps/web/apps/web` duplicate. Always `Set-Location` to the repo root first.
 

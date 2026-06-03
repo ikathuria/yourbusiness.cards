@@ -3,15 +3,21 @@
  * The public renderer, gallery, editor preview, and AI generator all read this.
  * Add a template here once and it appears everywhere.
  *
- * Status: Modern Premium family built (Milestone 2, family-first). Bold &
- * Classic families to follow.
+ * Status: all three families built (Milestone 2) — 9 templates.
  */
 import type { CardTemplate, TemplateFamily } from "./types";
 import Aurora from "./modern/Aurora";
 import Halo from "./modern/Halo";
 import Monolith from "./modern/Monolith";
+import Pop from "./bold/Pop";
+import Neon from "./bold/Neon";
+import Carnival from "./bold/Carnival";
+import Editorial from "./classic/Editorial";
+import Embossed from "./classic/Embossed";
+import Linen from "./classic/Linen";
 
 export const templates: CardTemplate[] = [
+  // Modern Premium
   {
     id: "aurora",
     name: "Aurora",
@@ -35,6 +41,56 @@ export const templates: CardTemplate[] = [
     tier: "pro",
     description: "Full-bleed gradient hero with a sticky contact bar.",
     Component: Monolith,
+  },
+  // Bold & Expressive
+  {
+    id: "pop",
+    name: "Pop",
+    family: "bold",
+    tier: "free",
+    description: "Neobrutalist sticker style with springy motion.",
+    Component: Pop,
+  },
+  {
+    id: "neon",
+    name: "Neon",
+    family: "bold",
+    tier: "pro",
+    description: "Dark with neon glow accents and glowing buttons.",
+    Component: Neon,
+  },
+  {
+    id: "carnival",
+    name: "Carnival",
+    family: "bold",
+    tier: "pro",
+    description: "Bright pastel gradient with floating shapes.",
+    Component: Carnival,
+  },
+  // Clean & Classic
+  {
+    id: "editorial",
+    name: "Editorial",
+    family: "classic",
+    tier: "free",
+    description: "Serif display, thin rules, magazine layout.",
+    Component: Editorial,
+  },
+  {
+    id: "embossed",
+    name: "Embossed",
+    family: "classic",
+    tier: "pro",
+    description: "A literal business card, restrained and refined.",
+    Component: Embossed,
+  },
+  {
+    id: "linen",
+    name: "Linen",
+    family: "classic",
+    tier: "premium",
+    description: "Warm neutral palette with a refined serif.",
+    Component: Linen,
   },
 ];
 

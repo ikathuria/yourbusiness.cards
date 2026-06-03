@@ -177,13 +177,15 @@ Tasks:
 **Goal:** A library of professionally distinct, animated templates renders beautifully on a single screen — this is the product's first impression and selling point. Built with seed data, before auth/DB.
 
 Tasks:
-- [ ] Define the card data model (business_card, links, theme config) as TypeScript types + zod in `features/cards` — Done when: a sample card object validates and is the input contract every template consumes.
-- [ ] Build the **template registry** in `src/templates/`: each template = component + metadata (`id`, `name`, `family`, `tier`, `previewImage`, supported blocks) — Done when: a typed `templates` list is importable and iterable.
-- [ ] Build **3 template families × ~3 templates (9 total)** — Modern Premium, Bold & Expressive, Clean & Classic — each: single-screen/viewport-height, mobile-first, token-driven, with tasteful Motion entrance + hover and `prefers-reduced-motion` support — Done when: each renders from the same seed card and passes the Design Principles pixel-QA gate at 390px.
-- [ ] Public renderer at `app/c/[slug]` that picks the card's template from the registry and renders it — Done when: `/c/demo` shows a complete, animated, single-screen card with no mobile scroll.
-- [ ] Public **template gallery** at `app/templates` showcasing all templates with live previews, ideally shown inside a **phone/device frame** so cards read as mobile on a shared screen — Done when: visitors can browse every template in-frame (doubles as marketing + SEO + the demo centerpiece).
+- [x] Define the card data model (business_card, links, theme config) as TypeScript types + zod in `features/cards` — Done when: a sample card object validates and is the input contract every template consumes. *(zod 4 schema + inferred types + seed data.)*
+- [x] Build the **template registry** in `src/templates/`: each template = component + metadata (`id`, `name`, `family`, `tier`, `previewImage`, supported blocks) — Done when: a typed `templates` list is importable and iterable. *(registry.ts: getTemplate/resolveTemplate/templatesByFamily.)*
+- [x] Build **3 template families × ~3 templates (9 total)** — Modern Premium, Bold & Expressive, Clean & Classic — each: single-screen/viewport-height, mobile-first, token-driven, with tasteful Motion entrance + hover and `prefers-reduced-motion` support — Done when: each renders from the same seed card and passes the Design Principles pixel-QA gate at 390px. *(Modern: Aurora/Halo/Monolith · Bold: Pop/Neon/Carnival · Classic: Editorial/Embossed/Linen. Added Fraunces serif for Classic. All screenshotted at 375px.)*
+- [x] Public renderer at `app/c/[slug]` that picks the card's template from the registry and renders it — Done when: `/c/demo` shows a complete, animated, single-screen card with no mobile scroll. *(Next 16 async params, per-card metadata, 404.)*
+- [x] Public **template gallery** at `app/templates` showcasing all templates with live previews, ideally shown inside a **phone/device frame** so cards read as mobile on a shared screen — Done when: visitors can browse every template in-frame (doubles as marketing + SEO + the demo centerpiece). *(PhoneFrame iframes the real card pages.)*
 - [ ] Premium per-card OG image via `@vercel/og` reflecting the card's theme — Done when: pasting a card link in Slack/iMessage/X unfurls into a branded preview (this is a demo wow-moment — make it excellent).
 - [ ] Theme-styled QR endpoint `app/api/qr` (color matches card) — Done when: scanning opens `/c/[slug]`.
+
+> ◐ **In progress.** All 9 templates + registry + renderer + gallery done and verified (build green, screenshots at 375px). Remaining: OG images + QR endpoint.
 
 ---
 

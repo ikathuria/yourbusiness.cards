@@ -56,6 +56,7 @@
   /* Fonts (provided by next/font in src/design/fonts.ts) */
   --font-display: var(--font-display);
   --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
   --font-mono: var(--font-mono);
 
   /* Radii → rounded-sm … rounded-2xl */
@@ -99,6 +100,9 @@ body {
   }
   .font-display {
     font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  }
+  .font-serif {
+    font-family: var(--font-serif), ui-serif, Georgia, serif;
   }
 }
 

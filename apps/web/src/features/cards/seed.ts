@@ -58,6 +58,105 @@ export const sampleCards: Record<string, BusinessCard> = {
       { label: "LinkedIn", url: "linkedin.com/company/vertex", icon: "linkedin" },
     ],
   },
+  pop: {
+    slug: "scoops-parlour",
+    templateId: "pop",
+    businessName: "Scoops Parlour",
+    tagline: "24 wild flavors",
+    description: "Small-batch ice cream, sundaes, and shakes. Made fresh, scooped with joy.",
+    contact: {
+      phone: "+1 (305) 555-0144",
+      website: "scoops.fun",
+      address: "120 Ocean Dr, Miami, FL",
+    },
+    links: [
+      { label: "Today's flavors", url: "scoops.fun/flavors", icon: "link" },
+      { label: "Order a cake", url: "scoops.fun/cakes", icon: "link" },
+    ],
+  },
+  neon: {
+    slug: "fade-house",
+    templateId: "neon",
+    businessName: "Fade House",
+    tagline: "Cuts after dark",
+    description: "Precision fades, hot-towel shaves, and beard work. Walk-ins till midnight.",
+    contact: {
+      phone: "+1 (702) 555-0188",
+      website: "fadehouse.la",
+      address: "9 Fremont St, Las Vegas, NV",
+      hours: "Tue–Sun · 2pm–12am",
+    },
+    links: [
+      { label: "Book a chair", url: "fadehouse.la/book", icon: "link" },
+      { label: "Instagram", url: "instagram.com/fadehouse", icon: "instagram" },
+    ],
+  },
+  carnival: {
+    slug: "sugar-petal",
+    templateId: "carnival",
+    businessName: "Sugar & Petal",
+    tagline: "Cakes & blooms",
+    description: "Custom cakes and fresh flowers for birthdays, weddings, and just-because days.",
+    contact: {
+      phone: "+1 (503) 555-0166",
+      email: "hi@sugarpetal.shop",
+      website: "sugarpetal.shop",
+    },
+    links: [
+      { label: "Order a cake", url: "sugarpetal.shop/order", icon: "link" },
+      { label: "Wedding inquiries", url: "sugarpetal.shop/weddings", icon: "link" },
+    ],
+  },
+  editorial: {
+    slug: "hale-mercer",
+    templateId: "editorial",
+    businessName: "Hale & Mercer",
+    tagline: "Attorneys at Law",
+    description: "Estate planning, real estate, and small-business counsel. Trusted since 1998.",
+    contact: {
+      phone: "+1 (617) 555-0133",
+      email: "office@halemercer.law",
+      website: "halemercer.law",
+      address: "200 Beacon St, Boston, MA",
+    },
+    links: [
+      { label: "Schedule a consultation", url: "halemercer.law/contact", icon: "link" },
+    ],
+  },
+  embossed: {
+    slug: "northgate-plumbing",
+    templateId: "embossed",
+    businessName: "Northgate Plumbing",
+    tagline: "Licensed & insured",
+    description: "Residential and commercial plumbing. Same-day service, upfront pricing, no surprises.",
+    contact: {
+      phone: "+1 (614) 555-0111",
+      email: "dispatch@northgate.plumbing",
+      website: "northgate.plumbing",
+      address: "Serving Greater Columbus, OH",
+    },
+    links: [
+      { label: "Request service", url: "northgate.plumbing/book", icon: "link" },
+      { label: "Get a quote", url: "northgate.plumbing/quote", icon: "link" },
+    ],
+  },
+  linen: {
+    slug: "flour-stone",
+    templateId: "linen",
+    businessName: "Flour & Stone",
+    tagline: "Wood-fired bakery",
+    description: "Naturally leavened sourdough, morning pastries, and stone-milled flour. Baked daily.",
+    contact: {
+      phone: "+1 (415) 555-0150",
+      website: "flourandstone.bakery",
+      address: "27 Mill Ln, Sonoma, CA",
+      hours: "Wed–Sun · 7am–2pm",
+    },
+    links: [
+      { label: "Pre-order bread", url: "flourandstone.bakery/order", icon: "link" },
+      { label: "Visit us", url: "flourandstone.bakery/visit", icon: "link" },
+    ],
+  },
 };
 
 /** A sample card for a given template id (falls back to a generic one). */
