@@ -102,7 +102,7 @@ repo-root/
 |---|---|---|
 | 1. Scaffold + design foundation | ✅ done | Next 16.2.7 + React 19.2.4 + Tailwind 4 + Motion 12.40; `design/` tokens/fonts/motion; build + dev verified |
 | 2. Design system & template gallery | ✅ done | 9 templates (3 families) + registry + `/c/[slug]` renderer + `/templates` gallery + branded homepage + per-card OG images + `/api/qr`. Bold neobrutalist brand UI. |
-| 3. Data layer (Supabase + RLS) | ◐ code complete | schema + RLS + `@supabase/ssr` clients + `getPublishedCard()` written; renderer reads DB w/ seed fallback. ⏳ pending user's Supabase project (`docs/04-supabase-setup.md`) |
+| 3. Data layer (Supabase + RLS) | ✅ done | schema + RLS + `@supabase/ssr` clients + `getPublishedCard()`; verified against live DB (DB-only card renders, unknown slugs 404). Env in `apps/web/.env.local`. |
 | 4. Auth + dashboard | ☐ todo | magic-link, designed card list, new-card → template picker |
 | 5. Card editor (tiered) | ☐ todo | live preview, light tweaks (all) + deep customization (Pro) |
 | 6. Monetization (3-tier Stripe) | ☐ todo | Free / Pro / Premium gating, design power = upsell |
@@ -116,8 +116,8 @@ repo-root/
 
 **Milestone 2 done.** 9 templates + registry + `/c/[slug]` renderer + `/templates` gallery + branded homepage + per-card OG images + `/api/qr`. Fonts: Sora/Inter/Fraunces/JetBrains Mono. Brand site palette = cream/ink + violet/mint/coral.
 
-**Milestone 3 — code complete, pending Supabase project.** Schema + RLS (`supabase/migrations/0001_initial_schema.sql`, `seed.sql`), `@supabase/ssr` clients (`lib/supabase/{server,client,config}.ts`), and `features/cards/queries.ts` (`getPublishedCard()` with seed fallback) are written; the renderer + OG image read from the DB when configured. **Action needed (user):** create a free Supabase project, run the two SQL files, add env keys — see `docs/04-supabase-setup.md`.
-**Next up:** finish M3 verification once Supabase is connected, then Milestone 4 (auth + dashboard) — which also adds the session-refresh middleware the SSR client expects.
+**Milestone 3 done & verified.** Supabase connected (project `qwcwamflmghsgpdmfwdh`); schema + RLS applied, 9 cards seeded, and the app reads live from the DB (verified via a DB-only card). Env lives in `apps/web/.env.local` (gitignored). `getPublishedCard()` still falls back to seed if Supabase is ever unset.
+**Next up:** Milestone 4 — auth (Supabase magic-link/OAuth) + the dashboard (list/manage your cards), including the session-refresh `middleware.ts` the SSR client expects. Then M5 the editor.
 
 **Toolchain note (Windows):** scaffold/install commands must run in **native PowerShell** with **absolute `--prefix` paths** — the Bash tool's git-bash mangles Windows paths, and a drifting cwd previously created a nested `apps/web/apps/web` duplicate. Always `Set-Location` to the repo root first.
 

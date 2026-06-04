@@ -11,6 +11,15 @@
 *.sln.docstates
 *.env
 
+# Local env files with secrets (never commit). Keep the example.
+.env
+.env.*
+!.env.example
+
+# Supabase CLI local artifacts
+supabase/.temp/
+supabase/.branches/
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 

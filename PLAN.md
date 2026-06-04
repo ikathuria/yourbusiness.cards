@@ -198,7 +198,7 @@ Tasks:
 - [x] Wire the Supabase client in `lib/` (server + browser); `/c/[slug]` reads from Supabase instead of seed data — Done when: the public renderer loads a real DB row. *(`lib/supabase/{server,client,config}.ts` via `@supabase/ssr`; `features/cards/queries.ts` `getPublishedCard()` with seed fallback; renderer + OG image wired.)*
 - [~] Slug generation + uniqueness + reserved-word guard (`api`, `c`, `templates`, `login`) — Done when: duplicate names yield distinct slugs and reserved paths are blocked. *(DB enforces unique + format. Generation + reserved-word guard land with the create flow in M5.)*
 
-> ◐ **Code complete — pending verification.** Schema + RLS + client + query layer written and build-green via the seed fallback. **Next: user creates a free Supabase project, runs the SQL, and adds env keys** (`docs/04-supabase-setup.md`); then `/c/[slug]` reads live from the DB.
+> ✅ **Milestone 3 complete & verified against the live DB (2026-06-03).** Supabase project connected; schema applied; 9 cards seeded. Confirmed: anon/publishable read returns only published cards (RLS), the app renders a DB-only card (`/c/zz-db-check` → 200, proving DB reads), and unknown slugs 404. Slug generation + reserved-word guard still land with the create flow (M5).
 
 ---
 
