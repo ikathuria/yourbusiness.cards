@@ -107,7 +107,7 @@ repo-root/
 | 5. Card editor (tiered) | ✅ core done | `/dashboard/edit/[id]` + `CardEditor` + iframe live preview (`/preview-card`) + `saveCard`. Template/accent/content/links/publish verified. Deferred: logo upload, inline zod, deep Pro customization. |
 | 6. Monetization (3-tier Stripe) | ☐ todo | Free / Pro / Premium gating, design power = upsell |
 | 7. AI card generator | ☐ todo | Premium headline; AI selects from registry only |
-| 8. Deploy | ☐ todo | Vercel + apex domain + live Stripe |
+| 8. Deploy | ✅ live | **https://yourbusiness-cards.vercel.app** — Vercel (root `apps/web`), auto-deploys on push to `main`. Verified in prod: homepage, gallery, login, DB-backed cards (DB-only card rendered), QR + OG images. See `docs/05-deploy.md`. |
 | 9. Polish & Pro/Premium features | ☐ todo | analytics, leads, custom domain, finish pass |
 
 **🏆 Hackathon context:** building for a hackathon (~1 week) with an **online/remote demo** (judges watch via screen-share/video/submitted link — not in the room); the wow-factor is **a gallery of stunning animated templates**. Prioritize per `PLAN.md → Hackathon Track`: nail the landing page + template gallery (shown in a phone frame) + a live create flow producing a clickable public link with a beautiful OG unfurl, deploy it, and **defer full auth, billing, and AI to stretch.** A clickable live link replaces "scan the QR" for online judging. Keep a flawless backup recording.
@@ -121,7 +121,9 @@ repo-root/
 **Milestone 4 done & verified.** Email+password auth, session-refresh `middleware.ts`, `/dashboard` (own cards, publish/delete, copy-link/QR), `/dashboard/new` picker → `createCard`. **Demo note:** disable "Confirm email" in Supabase Auth → Email for instant form signups.
 
 **Milestone 5 core done & verified.** The editor: `/dashboard/edit/[id]` (`CardEditor` client) with a **live preview iframe** (`/preview-card`) fed by `postMessage` that renders the real template and updates as you type; content + contact + links (add/reorder); template switcher + accent presets (all tiers) + custom color (Pro-gated); Publish/Unpublish. `saveCard` server action persists owner-scoped (verified: rename → save → DB). `createCard` now routes into the editor; dashboard rows have an Edit link. Deferred: logo/cover upload (Storage), inline zod errors, deeper Pro customization (fonts/layout/motion).
-**Next up:** Milestone 6 — monetization. Stripe Checkout (Pro/Premium) + Customer Portal, webhook → `accounts.plan`, and enforce the tier gates (card count, template/customization access, badge) defined in `features/billing`.
+**🚀 LIVE:** https://yourbusiness-cards.vercel.app (M8 done; auto-deploys from `main`). Production verified against Supabase. Remember to keep Supabase Auth "Confirm email" OFF for instant demo signups.
+
+**Next up (remaining):** M7A AI QR art (on `feat/m7-ai-qr-art`, needs Replicate token), M7B AI card generator (Nano Banana + Anthropic), M6 monetization (Stripe), M9 polish. _Branch previews deploy automatically — test AI QR art on its preview URL before merging._
 
 **Toolchain note (Windows):** scaffold/install commands must run in **native PowerShell** with **absolute `--prefix` paths** — the Bash tool's git-bash mangles Windows paths, and a drifting cwd previously created a nested `apps/web/apps/web` duplicate. Always `Set-Location` to the repo root first.
 

@@ -258,9 +258,12 @@ Tasks:
 **Goal:** Live at https://yourbusiness.cards on Vercel.
 
 Tasks:
-- [ ] Connect repo to Vercel, root `apps/web`, add all env vars — Done when: production build succeeds.
-- [ ] Point the `yourbusiness.cards` domain at Vercel; verify `/c/[slug]`, `/templates`, and OG images work in prod — Done when: a real card loads at the apex domain and previews correctly when shared.
-- [ ] Switch Stripe to live keys + live webhook; smoke-test a real upgrade — Done when: a live Pro/Premium upgrade succeeds end-to-end.
+- [x] Connect repo to Vercel, root `apps/web`, add all env vars — Done when: production build succeeds. *(Live at https://yourbusiness-cards.vercel.app; auto-deploys from `main`.)*
+- [x] Verify `/c/[slug]`, `/templates`, and OG images work in prod — Done when: a real card loads and previews correctly when shared. *(Verified: homepage, gallery, login, QR (image/png), OG (image/png), and a DB-only card rendering — proving prod reads from Supabase.)*
+- [ ] Custom apex domain `yourbusiness.cards` (optional) — Done when: the card loads at the apex domain.
+- [ ] Switch Stripe to live keys + live webhook (after M6) — Done when: a live Pro/Premium upgrade succeeds end-to-end.
+
+> ✅ **Milestone 8 done — LIVE at https://yourbusiness-cards.vercel.app.** Production verified against Supabase. Custom domain + live Stripe are follow-ons.
 
 ---
 
