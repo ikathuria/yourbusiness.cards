@@ -118,10 +118,12 @@ repo-root/
 
 **Milestone 3 done & verified.** Supabase connected; schema + RLS applied, 9 cards seeded, app reads live from the DB. Env in `apps/web/.env.local`.
 
-**Milestone 4 done & verified.** Email+password auth, session-refresh `middleware.ts`, `/dashboard` (own cards, publish/delete, copy-link/QR), `/dashboard/new` picker → `createCard`. **Demo note:** disable "Confirm email" in Supabase Auth → Email for instant form signups.
+**Milestone 4 done & verified.** Email+password auth, session-refresh `middleware.ts`, `/dashboard` (own cards, publish/delete, copy-link/QR), `/dashboard/new` picker → `createCard`. ✅ Supabase "Confirm email" is OFF (verified) — instant form signups work.
 
 **Milestone 5 core done & verified.** The editor: `/dashboard/edit/[id]` (`CardEditor` client) with a **live preview iframe** (`/preview-card`) fed by `postMessage` that renders the real template and updates as you type; content + contact + links (add/reorder); template switcher + accent presets (all tiers) + custom color (Pro-gated); Publish/Unpublish. `saveCard` server action persists owner-scoped (verified: rename → save → DB). `createCard` now routes into the editor; dashboard rows have an Edit link. Deferred: logo/cover upload (Storage), inline zod errors, deeper Pro customization (fonts/layout/motion).
-**🚀 LIVE:** https://yourbusiness-cards.vercel.app (M8 done; auto-deploys from `main`). Production verified against Supabase. Remember to keep Supabase Auth "Confirm email" OFF for instant demo signups.
+**🚀 LIVE:** https://yourbusiness-cards.vercel.app (M8 done; auto-deploys from `main`). Production verified against Supabase. Supabase "Confirm email" is OFF (verified) so live signups are instant.
+
+**Env note:** all env vars live in **`apps/web/.env.local`** (gitignored) and **`apps/web/.env.example`** (template). The root-level `.env.local`/`.env.example` were removed to avoid the duplicate-file confusion — edit only `apps/web/.env.local` going forward.
 
 **Next up (remaining):** **M6** built on `feat/m6-stripe` — set up Stripe (`docs/06-stripe-setup.md`), test the payment flow, then merge. M7A AI QR art (on `feat/m7-ai-qr-art`, needs Replicate token), M7B AI card generator (Nano Banana + Anthropic). _Branch previews deploy automatically._
 
