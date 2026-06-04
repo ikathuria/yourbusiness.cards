@@ -16,6 +16,7 @@ export type EditorCard = {
   contact: { phone: string; email: string; website: string; address: string; hours: string };
   links: { label: string; url: string; icon: string }[];
   themeAccent: string | null;
+  qrArtUrl: string | null;
   published: boolean;
 };
 
@@ -39,6 +40,37 @@ export function CardEditor({
   const [pending, startTransition] = useTransition();
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const canCustomColor = plan !== "free";
+  const isPremium = plan === "premium";
+
+  // AI QR art (Premium)
+  const [artPrompt, setArtPrompt] = useState("");
+  const [qrStrength, setQrStrength] = useState(1.8);
+  const [artUrl, setArtUrl] = useState<string | null>(initial.qrArtUrl);
+  const [generating, setGenerating] = useState(false);
+  const [artError, setArtError] = useState<string | null>(null);
+
+  async function generateArt() {
+    if (!artPrompt.trim()) {
+      setArtError("Describe the art you want.");
+      return;
+    }
+    setArtError(null);
+    setGenerating(true);
+    try {
+      const res = await fetch("/api/qr-art", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ cardId: card.id, prompt: artPrompt, qrStrength }),
+      });
+      const data = await res.json();
+      if (!res.ok) setArtError(data.error ?? "Generation failed.");
+      else setArtUrl(data.url);
+    } catch {
+      setArtError("Network error — try again.");
+    } finally {
+      setGenerating(false);
+    }
+  }
 
   // Build the BusinessCard the preview renders.
   const previewCard = useMemo<BusinessCard>(
@@ -287,6 +319,92 @@ export function CardEditor({
                 </div>
               ))}
             </div>
+          </section>
+
+          {/* AI QR art (Premium) */}
+          <section className="rounded-2xl border-2 border-ink bg-paper-2 p-5 shadow-[4px_4px_0_0_#161320]">
+            <div className="flex items-center gap-2">
+              <h2 className="font-display text-base font-extrabold">✦ AI QR art</h2>
+              <span className="rounded-md border-2 border-ink bg-brand px-2 py-0.5 text-[0.6rem] font-extrabold uppercase text-white">
+                Premium
+              </span>
+            </div>
+            <p className="mt-1 text-sm font-medium text-ink/60">
+              Turn your QR code into scannable artwork for flyers and ads.
+            </p>
+
+            {!isPremium ? (
+              <div className="mt-4 rounded-xl border-2 border-dashed border-ink/40 bg-paper p-4 text-center">
+                <p className="text-sm font-bold text-ink">Upgrade to Premium to unlock AI QR art.</p>
+                <a href="/#pricing" className="mt-2 inline-block font-mono text-xs text-brand underline-offset-4 hover:underline">
+                  See plans →
+                </a>
+              </div>
+            ) : (
+              <div className="mt-4 space-y-3">
+                <textarea
+                  className={`${input} min-h-16`}
+                  value={artPrompt}
+                  onChange={(e) => setArtPrompt(e.target.value)}
+                  placeholder="e.g. a cozy coffee shop interior, warm morning light"
+                />
+                <div className="flex flex-wrap gap-1.5">
+                  {[
+                    "a cozy coffee shop interior, warm light",
+                    "a vibrant cyberpunk city at night",
+                    "a serene watercolor mountain landscape",
+                    "lush botanical flowers, pastel tones",
+                    "abstract flowing gradients, modern",
+                  ].map((s) => (
+                    <button
+                      key={s}
+                      onClick={() => setArtPrompt(s)}
+                      className="rounded-lg border-2 border-ink bg-paper px-2 py-1 text-[0.65rem] font-bold text-ink/70 hover:bg-paper-2"
+                    >
+                      {s.split(",")[0]}
+                    </button>
+                  ))}
+                </div>
+                <label className="flex items-center gap-3 text-xs font-bold text-ink/70">
+                  Scannability
+                  <input
+                    type="range"
+                    min={1.2}
+                    max={2.5}
+                    step={0.1}
+                    value={qrStrength}
+                    onChange={(e) => setQrStrength(Number(e.target.value))}
+                    className="flex-1 accent-brand"
+                  />
+                  <span className="font-mono">{qrStrength.toFixed(1)}</span>
+                </label>
+                <button
+                  onClick={generateArt}
+                  disabled={generating}
+                  className="w-full rounded-xl border-2 border-ink bg-brand py-2.5 font-display text-sm font-extrabold text-white shadow-[3px_3px_0_0_#161320] transition-transform hover:-translate-y-0.5 disabled:opacity-60"
+                >
+                  {generating ? "Generating… (~30s)" : artUrl ? "Regenerate" : "Generate AI QR art"}
+                </button>
+                {artError && (
+                  <p className="rounded-lg border-2 border-ink bg-coral/20 px-3 py-2 text-xs font-semibold text-ink">{artError}</p>
+                )}
+                {artUrl && (
+                  <div className="space-y-2">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={artUrl} alt="AI QR art" className="w-full rounded-xl border-2 border-ink" />
+                    <div className="flex gap-2">
+                      <a href={artUrl} download={`${card.slug}-qr-art.png`} target="_blank" rel="noopener noreferrer" className="flex-1 rounded-lg border-2 border-ink bg-paper py-2 text-center text-xs font-extrabold">
+                        Download
+                      </a>
+                      <a href={`/c/${card.slug}`} target="_blank" rel="noopener noreferrer" className="rounded-lg border-2 border-ink bg-paper px-3 py-2 text-center text-xs font-extrabold">
+                        Test scan ↗
+                      </a>
+                    </div>
+                    <p className="text-[0.65rem] text-ink/50">Tip: scan to confirm it opens your card. If not, raise scannability and regenerate.</p>
+                  </div>
+                )}
+              </div>
+            )}
           </section>
         </div>
 

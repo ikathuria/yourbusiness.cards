@@ -99,7 +99,16 @@ export async function saveCard(input: SaveCardInput): Promise<{ ok: boolean; err
   const contact = Object.fromEntries(
     Object.entries(input.contact).filter(([, v]) => typeof v === "string" && v.trim()),
   );
-  const theme_overrides = input.themeAccent ? { accent: input.themeAccent } : {};
+
+  // Merge theme_overrides so we preserve other keys (e.g. AI qrArtUrl).
+  const { data: existing } = await supabase
+    .from("business_cards")
+    .select("theme_overrides")
+    .eq("id", input.id)
+    .maybeSingle<{ theme_overrides: Record<string, unknown> | null }>();
+  const theme_overrides: Record<string, unknown> = { ...(existing?.theme_overrides ?? {}) };
+  if (input.themeAccent) theme_overrides.accent = input.themeAccent;
+  else delete theme_overrides.accent;
 
   const { error } = await supabase
     .from("business_cards")
