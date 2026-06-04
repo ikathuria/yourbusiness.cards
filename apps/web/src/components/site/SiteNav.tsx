@@ -15,10 +15,10 @@ export function SiteNav() {
         >
           Templates
         </Link>
-        <Sticker href="/templates" variant="light" size="sm">
+        <Sticker href="/login" variant="light" size="sm">
           Sign in
         </Sticker>
-        <Sticker href="/templates" variant="primary" size="sm">
+        <Sticker href="/login" variant="primary" size="sm">
           Make yours
         </Sticker>
       </div>

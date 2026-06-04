@@ -103,7 +103,7 @@ repo-root/
 | 1. Scaffold + design foundation | ✅ done | Next 16.2.7 + React 19.2.4 + Tailwind 4 + Motion 12.40; `design/` tokens/fonts/motion; build + dev verified |
 | 2. Design system & template gallery | ✅ done | 9 templates (3 families) + registry + `/c/[slug]` renderer + `/templates` gallery + branded homepage + per-card OG images + `/api/qr`. Bold neobrutalist brand UI. |
 | 3. Data layer (Supabase + RLS) | ✅ done | schema + RLS + `@supabase/ssr` clients + `getPublishedCard()`; verified against live DB (DB-only card renders, unknown slugs 404). Env in `apps/web/.env.local`. |
-| 4. Auth + dashboard | ☐ todo | magic-link, designed card list, new-card → template picker |
+| 4. Auth + dashboard | ✅ done | email+password auth, session-refresh `middleware.ts`, `/dashboard` (own cards, publish/delete, copy-link/QR), `/dashboard/new` picker → `createCard`. Verified in-browser. |
 | 5. Card editor (tiered) | ☐ todo | live preview, light tweaks (all) + deep customization (Pro) |
 | 6. Monetization (3-tier Stripe) | ☐ todo | Free / Pro / Premium gating, design power = upsell |
 | 7. AI card generator | ☐ todo | Premium headline; AI selects from registry only |
@@ -116,8 +116,10 @@ repo-root/
 
 **Milestone 2 done.** 9 templates + registry + `/c/[slug]` renderer + `/templates` gallery + branded homepage + per-card OG images + `/api/qr`. Fonts: Sora/Inter/Fraunces/JetBrains Mono. Brand site palette = cream/ink + violet/mint/coral.
 
-**Milestone 3 done & verified.** Supabase connected (project `qwcwamflmghsgpdmfwdh`); schema + RLS applied, 9 cards seeded, and the app reads live from the DB (verified via a DB-only card). Env lives in `apps/web/.env.local` (gitignored). `getPublishedCard()` still falls back to seed if Supabase is ever unset.
-**Next up:** Milestone 4 — auth (Supabase magic-link/OAuth) + the dashboard (list/manage your cards), including the session-refresh `middleware.ts` the SSR client expects. Then M5 the editor.
+**Milestone 3 done & verified.** Supabase connected; schema + RLS applied, 9 cards seeded, app reads live from the DB. Env in `apps/web/.env.local`.
+
+**Milestone 4 done & verified.** Email+password auth (`app/login` + server actions), session-refresh `middleware.ts` (+ `lib/supabase/middleware.ts`) guarding `/dashboard`, `lib/supabase/auth.ts` helpers, `/dashboard` (own cards, Live/Draft, copy-link/QR via `CardRowActions`, publish/delete server actions, sign out), `/dashboard/new` template picker → `createCard`. Verified full flow in-browser (sign in → create Pop draft → publish → public render). **Note for demo:** disable "Confirm email" in Supabase Auth → Email so form signups are instant.
+**Next up:** Milestone 5 — the card editor (content form + live preview + tiered customization + publish toggle); the "Use this template" / dashboard row should route into it.
 
 **Toolchain note (Windows):** scaffold/install commands must run in **native PowerShell** with **absolute `--prefix` paths** — the Bash tool's git-bash mangles Windows paths, and a drifting cwd previously created a nested `apps/web/apps/web` duplicate. Always `Set-Location` to the repo root first.
 

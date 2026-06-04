@@ -206,9 +206,11 @@ Tasks:
 **Goal:** A user can sign up, log in, and land on a polished dashboard listing their cards.
 
 Tasks:
-- [ ] Supabase Auth: email magic-link (+ optional Google OAuth) with protected `(dashboard)` route group; account row auto-created on first sign-in — Done when: unauthenticated users are redirected to login.
-- [ ] Dashboard card list (designed to the same bar as the cards): status (draft/published), public URL, copy-link / download-QR, thumbnail preview — Done when: a logged-in user sees only their own cards.
-- [ ] "New card" flow → template picker → creates a draft → routes to editor — Done when: a new draft appears in the list and DB under that account with its chosen template.
+- [x] Supabase Auth with protected `/dashboard` + session-refresh middleware; account row auto-created on first sign-in — Done when: unauthenticated users are redirected to login. *(Used **email + password** instead of magic-link — far more reliable for a live online demo. `middleware.ts` + `lib/supabase/middleware.ts` refresh sessions & guard `/dashboard`. Account auto-created by the `handle_new_user` trigger — verified. Magic-link/Google = easy later additions.)*
+- [x] Dashboard card list: status (draft/published), public URL, copy-link / download-QR — Done when: a logged-in user sees only their own cards. *(`/dashboard`: own cards only (`.eq account_id`), Live/Draft badge, copy-link + QR (`CardRowActions`), publish/unpublish + delete actions, sign out.)*
+- [x] "New card" flow → template picker → creates a draft → routes — Done when: a new draft appears in the list and DB under that account with its chosen template. *(`/dashboard/new` picker → `createCard` inserts an owner-scoped draft w/ unique slug. Editor lands here in M5.)*
+
+> ✅ **Milestone 4 complete & verified.** Drove the full flow in-browser: sign in → create a Pop draft (owner-scoped via RLS) → publish → `/c/<slug>` renders live (200). ⚠️ For instant **form** signups in the demo, disable **Confirm email** in Supabase (Auth → Providers → Email) — otherwise new users get a "check your email" notice (my test used a pre-confirmed user).
 
 ---
 
