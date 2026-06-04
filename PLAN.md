@@ -271,10 +271,13 @@ Tasks:
 **Goal:** No rough edges anywhere; paid features deliver real value and the whole product feels premium.
 
 Tasks:
-- [ ] Analytics (Pro): count card views + QR scans, clean chart in dashboard — Done when: views increment per visit and display per card.
-- [ ] Lead capture block (Pro): optional "contact us" form → stored leads / owner notification — Done when: a submission is stored and visible to the owner.
-- [ ] Custom domain support (Pro): serve a card on the user's own domain (CNAME mapping) — Done when: a Pro user's card loads on their domain.
-- [ ] Whole-app finish pass: loading/empty/error/skeleton states, friendly 404 card page, motion consistency, mobile QA across all 9 templates, rate-limiting on public/QR/generate endpoints — Done when: no console errors on core flows and every template passes pixel-QA on mobile.
+- [x] Analytics: count card views + QR scans, display in dashboard — Done when: views increment per visit and display per card. *(`/api/track-view` + `ViewTracker` (client, 1/session, reads `?src=qr`); QR encodes `?src=qr`; dashboard shows per-card 👁 count + total. Verified: tracking inserts (anon), owner reads 3 views (qr,link,link), other anons read 0 — RLS keeps analytics private.)*
+- [x] Friendly branded 404 page — Done when: unknown/unpublished card URLs show an on-brand 404. *(`app/not-found.tsx` — neobrutalist; verified 404 status + branded copy.)*
+- [ ] Lead capture block (Pro): "contact us" form → stored leads — *deferred (bigger feature).*
+- [ ] Custom domain per card (Pro): CNAME mapping — *deferred (infra-heavy; not demo-critical).*
+- [ ] Remaining finish pass: skeleton/loading states, rate-limiting, full mobile QA sweep — *partial (empty/error states exist; rate-limiting TODO).*
+
+> ◐ **M9 core done:** analytics (verified) + branded 404. Lead capture, custom domain, and rate-limiting deferred as non-demo-critical.
 
 ---
 

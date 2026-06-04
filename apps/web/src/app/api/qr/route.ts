@@ -27,7 +27,7 @@ export async function GET(req: NextRequest) {
   }
 
   const base = process.env.NEXT_PUBLIC_APP_URL?.replace(/\/$/, "") || origin;
-  const target = `${base}/c/${slug}`;
+  const target = `${base}/c/${slug}?src=qr`; // tag scans for analytics
 
   const dark = color(searchParams.get("fg"), "#161320");
   const light = color(searchParams.get("bg"), "#f7f4ee");

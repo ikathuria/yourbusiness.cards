@@ -33,6 +33,22 @@ export default async function DashboardPage() {
 
   const list = cards ?? [];
 
+  // View counts per card (RLS: owners can read views for their own cards).
+  const cardIds = list.map((c) => c.id);
+  const viewCounts: Record<string, number> = {};
+  let totalViews = 0;
+  if (cardIds.length) {
+    const { data: views } = await supabase
+      .from("card_views")
+      .select("card_id")
+      .in("card_id", cardIds)
+      .returns<{ card_id: string }[]>();
+    for (const v of views ?? []) {
+      viewCounts[v.card_id] = (viewCounts[v.card_id] ?? 0) + 1;
+      totalViews++;
+    }
+  }
+
   return (
     <div className="min-h-[100dvh] bg-paper text-ink">
       {/* Header */}
@@ -62,7 +78,8 @@ export default async function DashboardPage() {
           <div>
             <h1 className="font-display text-3xl font-extrabold tracking-tight">Your cards</h1>
             <p className="mt-1 text-sm font-medium text-ink/60">
-              {list.length} card{list.length === 1 ? "" : "s"}
+              {list.length} card{list.length === 1 ? "" : "s"} · {totalViews} total view
+              {totalViews === 1 ? "" : "s"}
             </p>
           </div>
           <Sticker href="/dashboard/new" variant="primary" size="md">
@@ -103,7 +120,7 @@ export default async function DashboardPage() {
                       </span>
                     </div>
                     <p className="mt-0.5 font-mono text-xs text-ink/50">
-                      /c/{card.slug} · {template?.name ?? card.template_id}
+                      /c/{card.slug} · {template?.name ?? card.template_id} · 👁 {viewCounts[card.id] ?? 0}
                     </p>
                   </div>
 

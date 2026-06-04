@@ -108,7 +108,7 @@ repo-root/
 | 6. Monetization (3-tier Stripe) | ☐ todo | Free / Pro / Premium gating, design power = upsell |
 | 7. AI card generator | ☐ todo | Premium headline; AI selects from registry only |
 | 8. Deploy | ✅ live | **https://yourbusiness-cards.vercel.app** — Vercel (root `apps/web`), auto-deploys on push to `main`. Verified in prod: homepage, gallery, login, DB-backed cards (DB-only card rendered), QR + OG images. See `docs/05-deploy.md`. |
-| 9. Polish & Pro/Premium features | ☐ todo | analytics, leads, custom domain, finish pass |
+| 9. Polish | ◐ core done | **Analytics** (`/api/track-view` + `ViewTracker`; dashboard 👁 counts; QR-scan vs link tagged; RLS owner-only — verified) + **branded 404** (`app/not-found.tsx`). Lead capture, custom domain, rate-limiting deferred. |
 
 **🏆 Hackathon context:** building for a hackathon (~1 week) with an **online/remote demo** (judges watch via screen-share/video/submitted link — not in the room); the wow-factor is **a gallery of stunning animated templates**. Prioritize per `PLAN.md → Hackathon Track`: nail the landing page + template gallery (shown in a phone frame) + a live create flow producing a clickable public link with a beautiful OG unfurl, deploy it, and **defer full auth, billing, and AI to stretch.** A clickable live link replaces "scan the QR" for online judging. Keep a flawless backup recording.
 

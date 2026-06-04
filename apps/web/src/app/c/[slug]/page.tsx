@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getPublishedCard } from "@/features/cards/queries";
 import { resolveTemplate } from "@/templates/registry";
+import { ViewTracker } from "@/components/ViewTracker";
 
 /**
  * Public business card renderer.
@@ -32,5 +33,10 @@ export default async function CardPage({ params }: PageParams) {
   const template = resolveTemplate(card.templateId);
   const { Component } = template;
 
-  return <Component card={card} />;
+  return (
+    <>
+      <Component card={card} />
+      <ViewTracker slug={card.slug} />
+    </>
+  );
 }
