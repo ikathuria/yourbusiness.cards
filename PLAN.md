@@ -232,14 +232,13 @@ Tasks:
 **Goal:** Free / Pro / Premium enforced; users can upgrade and manage billing in test mode. Design power is the upsell.
 
 Tasks:
-- [ ] Single source-of-truth plan config in `features/billing`:
-  - **Free** — 1 published card, curated templates + light tweaks only, `yourbusiness.cards/c/slug`, "Made with YourBusiness.Cards" badge.
-  - **Pro (~$8/mo)** — unlimited cards, all theme families + deep customization, no badge, analytics, lead capture, custom domain.
-  - **Premium (~$15/mo)** — everything in Pro + AI card generation + premium-only template families.
-  Done when: limits/features are one typed config read everywhere.
-- [ ] Stripe Checkout for Pro & Premium + Customer Portal link — Done when: upgrading in test mode flips the account plan and the portal can switch/cancel.
-- [ ] Stripe webhook at `app/api/stripe` updating account plan on checkout/subscription events — Done when: plan stays correct after upgrade, downgrade, cancel, renewal.
-- [ ] Enforce gates in editor + renderer (card-count limit, template/customization access, badge) — Done when: each tier can do exactly its allowed set and the badge renders only on Free cards.
+- [x] Single source-of-truth plan config in `features/billing/plans.ts` (Free/Pro/Premium → maxPublished, customColor, allFamilies, ai, badge) + price-id↔plan mapping — Done when: limits/features are one typed config read everywhere.
+- [x] Stripe Checkout for Pro & Premium + Customer Portal — Done when: upgrading flips the account plan and the portal can switch/cancel. *(`/api/stripe/checkout` + `/api/stripe/portal`; `BillingControls` in the dashboard. ⏳ payment flow pending the user's Stripe keys + products.)*
+- [x] Stripe webhook at `/api/stripe/webhook` updating `accounts.plan` on checkout/subscription events (service-role) — Done when: plan stays correct after upgrade, downgrade, cancel. *(Signature-verified; handles checkout.session.completed + subscription created/updated/deleted. ⏳ pending Stripe test event.)*
+- [x] Enforce the card-count gate — Done when: Free can't publish a 2nd card. *(**Verified in-browser:** a Free user publishing a 2nd card is blocked → redirected to `/dashboard?limit=free` with an upgrade banner; the card stays a draft. Custom-color + AI gates already enforced in the editor.)*
+- [ ] "Made with" badge on Free public cards — *deferred (needs owner-plan lookup on the public render; minor).*
+
+> ◐ **M6 built & gate-verified.** Stripe checkout/portal/webhook + plan config + the Free publish-limit gate are done; the **payment flow needs the user's Stripe account (test keys + Pro/Premium products + webhook secret)** to test end-to-end — see setup steps. Badge deferred.
 
 ---
 

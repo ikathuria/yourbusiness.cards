@@ -105,7 +105,7 @@ repo-root/
 | 3. Data layer (Supabase + RLS) | ✅ done | schema + RLS + `@supabase/ssr` clients + `getPublishedCard()`; verified against live DB (DB-only card renders, unknown slugs 404). Env in `apps/web/.env.local`. |
 | 4. Auth + dashboard | ✅ done | email+password auth, session-refresh `middleware.ts`, `/dashboard` (own cards, publish/delete, copy-link/QR), `/dashboard/new` picker → `createCard`. Verified in-browser. |
 | 5. Card editor (tiered) | ✅ core done | `/dashboard/edit/[id]` + `CardEditor` + iframe live preview (`/preview-card`) + `saveCard`. Template/accent/content/links/publish verified. Deferred: logo upload, inline zod, deep Pro customization. |
-| 6. Monetization (3-tier Stripe) | ☐ todo | Free / Pro / Premium gating, design power = upsell |
+| 6. Monetization (3-tier Stripe) | ◐ built, gate-verified | `features/billing/plans.ts` + Stripe checkout/portal/webhook + dashboard `BillingControls`. Free publish-limit gate **verified in-browser**. Payment flow pending the user's Stripe keys (`docs/06-stripe-setup.md`). Badge deferred. |
 | 7. AI card generator | ☐ todo | Premium headline; AI selects from registry only |
 | 8. Deploy | ✅ live | **https://yourbusiness-cards.vercel.app** — Vercel (root `apps/web`), auto-deploys on push to `main`. Verified in prod: homepage, gallery, login, DB-backed cards (DB-only card rendered), QR + OG images. See `docs/05-deploy.md`. |
 | 9. Polish | ◐ core done | **Analytics** (`/api/track-view` + `ViewTracker`; dashboard 👁 counts; QR-scan vs link tagged; RLS owner-only — verified) + **branded 404** (`app/not-found.tsx`). Lead capture, custom domain, rate-limiting deferred. |
@@ -123,7 +123,9 @@ repo-root/
 **Milestone 5 core done & verified.** The editor: `/dashboard/edit/[id]` (`CardEditor` client) with a **live preview iframe** (`/preview-card`) fed by `postMessage` that renders the real template and updates as you type; content + contact + links (add/reorder); template switcher + accent presets (all tiers) + custom color (Pro-gated); Publish/Unpublish. `saveCard` server action persists owner-scoped (verified: rename → save → DB). `createCard` now routes into the editor; dashboard rows have an Edit link. Deferred: logo/cover upload (Storage), inline zod errors, deeper Pro customization (fonts/layout/motion).
 **🚀 LIVE:** https://yourbusiness-cards.vercel.app (M8 done; auto-deploys from `main`). Production verified against Supabase. Remember to keep Supabase Auth "Confirm email" OFF for instant demo signups.
 
-**Next up (remaining):** M7A AI QR art (on `feat/m7-ai-qr-art`, needs Replicate token), M7B AI card generator (Nano Banana + Anthropic), M6 monetization (Stripe), M9 polish. _Branch previews deploy automatically — test AI QR art on its preview URL before merging._
+**Next up (remaining):** **M6** built on `feat/m6-stripe` — set up Stripe (`docs/06-stripe-setup.md`), test the payment flow, then merge. M7A AI QR art (on `feat/m7-ai-qr-art`, needs Replicate token), M7B AI card generator (Nano Banana + Anthropic). _Branch previews deploy automatically._
+
+**Known follow-up:** Next 16.2 warns that the `middleware.ts` file convention is deprecated in favor of `proxy.ts` (still works for now — rename when convenient).
 
 **Toolchain note (Windows):** scaffold/install commands must run in **native PowerShell** with **absolute `--prefix` paths** — the Bash tool's git-bash mangles Windows paths, and a drifting cwd previously created a nested `apps/web/apps/web` duplicate. Always `Set-Location` to the repo root first.
 

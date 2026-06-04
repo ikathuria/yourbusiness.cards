@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { draftSlug } from "@/lib/slug";
 import { resolveTemplate } from "@/templates/registry";
+import { PLAN_FEATURES, type Plan } from "@/features/billing/plans";
 import type { SaveCardInput } from "./save-types";
 
 export async function signOut() {
@@ -49,6 +50,31 @@ export async function togglePublish(formData: FormData) {
   const id = String(formData.get("id"));
   const next = String(formData.get("published")) === "true";
   const supabase = await createClient();
+
+  // Enforce the plan's published-card limit when publishing.
+  if (next) {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (user) {
+      const { data: account } = await supabase
+        .from("accounts")
+        .select("plan")
+        .eq("id", user.id)
+        .maybeSingle<{ plan: Plan }>();
+      const limit = PLAN_FEATURES[account?.plan ?? "free"].maxPublished;
+      if (Number.isFinite(limit)) {
+        const { count } = await supabase
+          .from("business_cards")
+          .select("id", { count: "exact", head: true })
+          .eq("account_id", user.id)
+          .eq("published", true)
+          .neq("id", id);
+        if ((count ?? 0) >= limit) redirect("/dashboard?limit=free");
+      }
+    }
+  }
+
   const { error } = await supabase.from("business_cards").update({ published: next }).eq("id", id);
   if (error) throw new Error(error.message);
   revalidatePath("/dashboard");

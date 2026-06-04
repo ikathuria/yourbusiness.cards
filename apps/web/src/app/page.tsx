@@ -194,7 +194,7 @@ export default function Home() {
                   ))}
                 </ul>
                 <div className="mt-6">
-                  <Sticker href="/templates" variant={tier.featured ? "primary" : "light"} size="md" className="w-full">
+                  <Sticker href="/login" variant={tier.featured ? "primary" : "light"} size="md" className="w-full">
                     {tier.cta}
                   </Sticker>
                 </div>

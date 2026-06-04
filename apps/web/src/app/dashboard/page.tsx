@@ -6,6 +6,8 @@ import { getAccount } from "@/lib/supabase/auth";
 import { getTemplate } from "@/templates/registry";
 import { Sticker } from "@/components/site/Sticker";
 import { CardRowActions } from "./CardRowActions";
+import { BillingControls } from "./BillingControls";
+import { PLAN_FEATURES } from "@/features/billing/plans";
 import { signOut, togglePublish, deleteCard } from "./actions";
 
 export const metadata: Metadata = { title: "Dashboard" };
@@ -19,7 +21,12 @@ type CardRow = {
   updated_at: string;
 };
 
-export default async function DashboardPage() {
+export default async function DashboardPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ upgraded?: string; limit?: string }>;
+}) {
+  const { upgraded, limit } = await searchParams;
   const account = await getAccount();
   if (!account) redirect("/login");
 
@@ -74,6 +81,37 @@ export default async function DashboardPage() {
       </header>
 
       <main className="mx-auto max-w-5xl px-6 py-10">
+        {upgraded && (
+          <div className="mb-6 rounded-2xl border-2 border-ink bg-mint/30 p-4 text-sm font-bold text-ink shadow-[3px_3px_0_0_#161320]">
+            🎉 You&apos;re now on {upgraded === "premium" ? "Premium" : "Pro"} — enjoy your new features!
+          </div>
+        )}
+        {limit === "free" && (
+          <div className="mb-6 rounded-2xl border-2 border-ink bg-coral/25 p-4 text-sm font-bold text-ink shadow-[3px_3px_0_0_#161320]">
+            Your Free plan allows 1 published card. Upgrade to publish more.
+          </div>
+        )}
+
+        {/* Plan / billing */}
+        <div className="mb-8 flex flex-col gap-3 rounded-2xl border-2 border-ink bg-paper-2 p-5 shadow-[4px_4px_0_0_#161320] sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <div className="flex items-center gap-2">
+              <h2 className="font-display text-lg font-extrabold">Plan</h2>
+              <span className="rounded-md border-2 border-ink bg-mint px-2 py-0.5 text-xs font-extrabold uppercase">
+                {PLAN_FEATURES[account.plan].label}
+              </span>
+            </div>
+            <p className="mt-1 max-w-md text-sm font-medium text-ink/60">
+              {account.plan === "free"
+                ? "1 published card · curated templates. Upgrade for unlimited cards, customization, and AI."
+                : account.plan === "pro"
+                  ? "Unlimited cards, full customization, analytics — no badge."
+                  : "Everything in Pro + AI QR art & AI card generator."}
+            </p>
+          </div>
+          <BillingControls plan={account.plan} />
+        </div>
+
         <div className="flex items-center justify-between">
           <div>
             <h1 className="font-display text-3xl font-extrabold tracking-tight">Your cards</h1>
