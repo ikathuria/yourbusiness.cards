@@ -104,7 +104,7 @@ repo-root/
 | 2. Design system & template gallery | ✅ done | 9 templates (3 families) + registry + `/c/[slug]` renderer + `/templates` gallery + branded homepage + per-card OG images + `/api/qr`. Bold neobrutalist brand UI. |
 | 3. Data layer (Supabase + RLS) | ✅ done | schema + RLS + `@supabase/ssr` clients + `getPublishedCard()`; verified against live DB (DB-only card renders, unknown slugs 404). Env in `apps/web/.env.local`. |
 | 4. Auth + dashboard | ✅ done | email+password auth, session-refresh `middleware.ts`, `/dashboard` (own cards, publish/delete, copy-link/QR), `/dashboard/new` picker → `createCard`. Verified in-browser. |
-| 5. Card editor (tiered) | ☐ todo | live preview, light tweaks (all) + deep customization (Pro) |
+| 5. Card editor (tiered) | ✅ core done | `/dashboard/edit/[id]` + `CardEditor` + iframe live preview (`/preview-card`) + `saveCard`. Template/accent/content/links/publish verified. Deferred: logo upload, inline zod, deep Pro customization. |
 | 6. Monetization (3-tier Stripe) | ☐ todo | Free / Pro / Premium gating, design power = upsell |
 | 7. AI card generator | ☐ todo | Premium headline; AI selects from registry only |
 | 8. Deploy | ☐ todo | Vercel + apex domain + live Stripe |
@@ -118,8 +118,10 @@ repo-root/
 
 **Milestone 3 done & verified.** Supabase connected; schema + RLS applied, 9 cards seeded, app reads live from the DB. Env in `apps/web/.env.local`.
 
-**Milestone 4 done & verified.** Email+password auth (`app/login` + server actions), session-refresh `middleware.ts` (+ `lib/supabase/middleware.ts`) guarding `/dashboard`, `lib/supabase/auth.ts` helpers, `/dashboard` (own cards, Live/Draft, copy-link/QR via `CardRowActions`, publish/delete server actions, sign out), `/dashboard/new` template picker → `createCard`. Verified full flow in-browser (sign in → create Pop draft → publish → public render). **Note for demo:** disable "Confirm email" in Supabase Auth → Email so form signups are instant.
-**Next up:** Milestone 5 — the card editor (content form + live preview + tiered customization + publish toggle); the "Use this template" / dashboard row should route into it.
+**Milestone 4 done & verified.** Email+password auth, session-refresh `middleware.ts`, `/dashboard` (own cards, publish/delete, copy-link/QR), `/dashboard/new` picker → `createCard`. **Demo note:** disable "Confirm email" in Supabase Auth → Email for instant form signups.
+
+**Milestone 5 core done & verified.** The editor: `/dashboard/edit/[id]` (`CardEditor` client) with a **live preview iframe** (`/preview-card`) fed by `postMessage` that renders the real template and updates as you type; content + contact + links (add/reorder); template switcher + accent presets (all tiers) + custom color (Pro-gated); Publish/Unpublish. `saveCard` server action persists owner-scoped (verified: rename → save → DB). `createCard` now routes into the editor; dashboard rows have an Edit link. Deferred: logo/cover upload (Storage), inline zod errors, deeper Pro customization (fonts/layout/motion).
+**Next up:** Milestone 6 — monetization. Stripe Checkout (Pro/Premium) + Customer Portal, webhook → `accounts.plan`, and enforce the tier gates (card count, template/customization access, badge) defined in `features/billing`.
 
 **Toolchain note (Windows):** scaffold/install commands must run in **native PowerShell** with **absolute `--prefix` paths** — the Bash tool's git-bash mangles Windows paths, and a drifting cwd previously created a nested `apps/web/apps/web` duplicate. Always `Set-Location` to the repo root first.
 

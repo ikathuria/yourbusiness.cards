@@ -108,6 +108,12 @@ export default async function DashboardPage() {
                   </div>
 
                   <div className="flex flex-wrap items-center gap-2">
+                    <Link
+                      href={`/dashboard/edit/${card.id}`}
+                      className="rounded-lg border-2 border-ink bg-ink px-3 py-1.5 text-xs font-extrabold text-paper no-underline transition-transform hover:-translate-y-0.5"
+                    >
+                      Edit
+                    </Link>
                     <CardRowActions slug={card.slug} published={card.published} />
                     <form action={togglePublish}>
                       <input type="hidden" name="id" value={card.id} />
