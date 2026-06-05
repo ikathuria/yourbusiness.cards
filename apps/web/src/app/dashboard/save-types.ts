@@ -2,6 +2,7 @@
  * "use server" file, which may only export async functions). */
 export type SaveCardInput = {
   id: string;
+  slug: string;
   templateId: string;
   businessName: string;
   tagline: string;

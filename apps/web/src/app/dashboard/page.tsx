@@ -24,9 +24,9 @@ type CardRow = {
 export default async function DashboardPage({
   searchParams,
 }: {
-  searchParams: Promise<{ upgraded?: string; limit?: string }>;
+  searchParams: Promise<{ upgraded?: string; limit?: string; upgrade?: string }>;
 }) {
-  const { upgraded, limit } = await searchParams;
+  const { upgraded, limit, upgrade } = await searchParams;
   const account = await getAccount();
   if (!account) redirect("/login");
 
@@ -84,6 +84,11 @@ export default async function DashboardPage({
         {upgraded && (
           <div className="mb-6 rounded-2xl border-2 border-ink bg-mint/30 p-4 text-sm font-bold text-ink shadow-[3px_3px_0_0_#161320]">
             🎉 You&apos;re now on {upgraded === "premium" ? "Premium" : "Pro"} — enjoy your new features!
+          </div>
+        )}
+        {upgrade === "ai" && (
+          <div className="mb-6 rounded-2xl border-2 border-ink bg-brand/15 p-4 text-sm font-bold text-ink shadow-[3px_3px_0_0_#161320]">
+            ✨ AI card generation is a Premium feature. Upgrade to Premium to unlock it.
           </div>
         )}
         {limit === "free" && (

@@ -17,6 +17,7 @@ type Row = {
   contact: EditorCard["contact"] | null;
   theme_overrides: { accent?: string } | null;
   published: boolean;
+  qr_art_url: string | null;
   card_links: { label: string; url: string; icon: string | null; position: number }[] | null;
 };
 
@@ -26,14 +27,26 @@ export default async function EditCardPage({ params }: { params: Promise<{ id: s
   if (!account) redirect("/login");
 
   const supabase = await createClient();
-  const { data } = await supabase
+  const BASE_COLS =
+    "id, slug, template_id, business_name, tagline, description, contact, theme_overrides, published, card_links(label, url, icon, position)";
+
+  // Prefer selecting qr_art_url, but tolerate it being absent if migration 0002
+  // hasn't been applied yet (otherwise the whole query errors and 404s).
+  let { data, error } = await supabase
     .from("business_cards")
-    .select(
-      "id, slug, template_id, business_name, tagline, description, contact, theme_overrides, published, card_links(label, url, icon, position)",
-    )
+    .select(`${BASE_COLS}, qr_art_url`)
     .eq("id", id)
     .eq("account_id", account.id)
     .maybeSingle<Row>();
+
+  if (error) {
+    ({ data, error } = await supabase
+      .from("business_cards")
+      .select(BASE_COLS)
+      .eq("id", id)
+      .eq("account_id", account.id)
+      .maybeSingle<Row>());
+  }
 
   if (!data) notFound();
 
@@ -57,6 +70,7 @@ export default async function EditCardPage({ params }: { params: Promise<{ id: s
       .map((l) => ({ label: l.label, url: l.url, icon: l.icon ?? "link" })),
     themeAccent: data.theme_overrides?.accent ?? null,
     published: data.published,
+    qrArtUrl: data.qr_art_url ?? null,
   };
 
   const templateMeta = templates.map((t) => ({ id: t.id, name: t.name, family: t.family, tier: t.tier }));
