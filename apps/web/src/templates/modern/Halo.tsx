@@ -13,6 +13,7 @@ import { fadeInUp, scaleIn, staggerContainer } from "@/design/motion";
 export default function Halo({ card }: TemplateProps) {
   const reduce = useReducedMotion();
   const accent = card.theme?.accent ?? "#6d5ef7";
+  const accent2 = card.theme?.accent2 ?? "#f25ca2";
   const contact = getContactActions(card);
   const links = getLinkActions(card);
 
@@ -32,7 +33,7 @@ export default function Halo({ card }: TemplateProps) {
           />
           <div
             className="absolute inset-0 rounded-full"
-            style={{ background: `conic-gradient(from 180deg, ${accent}, #f25ca2, ${accent})` }}
+            style={{ background: `conic-gradient(from 180deg, ${accent}, ${accent2}, ${accent})` }}
           />
           <div className="absolute inset-[3px] flex items-center justify-center overflow-hidden rounded-full bg-white">
             {card.logoUrl ? (

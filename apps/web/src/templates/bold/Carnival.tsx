@@ -20,6 +20,7 @@ const SHAPES = [
 export default function Carnival({ card }: TemplateProps) {
   const reduce = useReducedMotion();
   const accent = card.theme?.accent ?? "#ff5fa2";
+  const accent2 = card.theme?.accent2 ?? "#ffb347";
   const contact = getContactActions(card);
   const links = getLinkActions(card);
 
@@ -49,7 +50,7 @@ export default function Carnival({ card }: TemplateProps) {
             animate={reduce ? undefined : { rotate: [0, -6, 6, 0] }}
             transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
             className="flex h-20 w-20 items-center justify-center rounded-3xl font-display text-2xl font-extrabold text-white shadow-lg"
-            style={{ background: `linear-gradient(135deg, ${accent}, #ffb347)` }}
+            style={{ background: `linear-gradient(135deg, ${accent}, ${accent2})` }}
           >
             {card.logoUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -97,7 +98,7 @@ export default function Carnival({ card }: TemplateProps) {
                 whileHover={{ scale: 1.03, y: -2 }}
                 whileTap={{ scale: 0.97 }}
                 className="flex items-center justify-center gap-2.5 rounded-full px-5 py-3.5 text-sm font-bold text-white no-underline shadow-md"
-                style={{ background: `linear-gradient(135deg, ${accent}, #ffb347)` }}
+                style={{ background: `linear-gradient(135deg, ${accent}, ${accent2})` }}
               >
                 <Icon size={16} />
                 <span className="truncate">{label}</span>

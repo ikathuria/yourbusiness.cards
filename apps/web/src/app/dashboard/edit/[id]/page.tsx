@@ -15,7 +15,7 @@ type Row = {
   tagline: string | null;
   description: string | null;
   contact: EditorCard["contact"] | null;
-  theme_overrides: { accent?: string } | null;
+  theme_overrides: { accent?: string; accent2?: string } | null;
   published: boolean;
   qr_art_url: string | null;
   card_links: { label: string; url: string; icon: string | null; position: number }[] | null;
@@ -69,6 +69,7 @@ export default async function EditCardPage({ params }: { params: Promise<{ id: s
       .sort((a, b) => a.position - b.position)
       .map((l) => ({ label: l.label, url: l.url, icon: l.icon ?? "link" })),
     themeAccent: data.theme_overrides?.accent ?? null,
+    themeAccent2: data.theme_overrides?.accent2 ?? null,
     published: data.published,
     qrArtUrl: data.qr_art_url ?? null,
   };

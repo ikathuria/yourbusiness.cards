@@ -17,6 +17,7 @@ export type EditorCard = {
   contact: { phone: string; email: string; website: string; address: string; hours: string };
   links: { label: string; url: string; icon: string }[];
   themeAccent: string | null;
+  themeAccent2: string | null;
   published: boolean;
   qrArtUrl: string | null;
 };
@@ -25,6 +26,10 @@ type TemplateMeta = { id: string; name: string; family: "modern" | "bold" | "cla
 
 const ACCENTS = ["#6d5ef7", "#21cfa0", "#ff7a5c", "#f25ca2", "#0ea5e9", "#f59e0b", "#ef4444", "#0f172a"];
 const FAMILY_LABEL = { modern: "Modern", bold: "Bold", classic: "Classic" } as const;
+
+// Templates that pair the primary accent with a second customizable color
+// (gradients / alternating buttons). Others ignore accent2.
+const SECONDARY_ACCENT_TEMPLATES = new Set(["aurora", "halo", "monolith", "carnival", "pop"]);
 
 export function CardEditor({
   initial,
@@ -47,6 +52,7 @@ export function CardEditor({
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const canCustomColor = plan !== "free";
   const canUseAi = plan === "premium";
+  const hasSecondaryAccent = SECONDARY_ACCENT_TEMPLATES.has(card.templateId);
   // QR-art generation state.
   const [qrPrompt, setQrPrompt] = useState("");
   const [qrPending, setQrPending] = useState(false);
@@ -67,7 +73,13 @@ export function CardEditor({
         Object.entries(card.contact).filter(([, v]) => v && v.trim()),
       ),
       links: card.links.filter((l) => l.label.trim() && l.url.trim()).map((l) => ({ ...l })),
-      theme: card.themeAccent ? { accent: card.themeAccent } : undefined,
+      theme:
+        card.themeAccent || card.themeAccent2
+          ? {
+              ...(card.themeAccent ? { accent: card.themeAccent } : {}),
+              ...(card.themeAccent2 ? { accent2: card.themeAccent2 } : {}),
+            }
+          : undefined,
     }),
     [card],
   );
@@ -145,6 +157,7 @@ export function CardEditor({
       contact: card.contact,
       links: card.links,
       themeAccent: card.themeAccent,
+      themeAccent2: card.themeAccent2,
       published,
     };
     startTransition(async () => {
@@ -258,7 +271,7 @@ export function CardEditor({
 
           {/* Accent */}
           <section>
-            <h2 className={labelCls}>Accent color</h2>
+            <h2 className={labelCls}>{hasSecondaryAccent ? "Primary color" : "Accent color"}</h2>
             <div className="mt-3 flex flex-wrap items-center gap-2">
               {ACCENTS.map((c) => (
                 <button
@@ -290,6 +303,46 @@ export function CardEditor({
               )}
             </div>
           </section>
+
+          {/* Secondary accent — only for templates that use a second color */}
+          {hasSecondaryAccent && (
+            <section>
+              <h2 className={labelCls}>Secondary color</h2>
+              <p className="mt-1 text-xs font-medium text-ink/45">
+                This template blends two colors — set the second one here.
+              </p>
+              <div className="mt-3 flex flex-wrap items-center gap-2">
+                {ACCENTS.map((c) => (
+                  <button
+                    key={c}
+                    onClick={() => set("themeAccent2", c)}
+                    className={`h-8 w-8 rounded-lg border-2 ${card.themeAccent2 === c ? "border-ink ring-2 ring-ink ring-offset-2 ring-offset-paper" : "border-ink"}`}
+                    style={{ background: c }}
+                    aria-label={`Secondary ${c}`}
+                  />
+                ))}
+                <button
+                  onClick={() => set("themeAccent2", null)}
+                  className="rounded-lg border-2 border-ink bg-paper-2 px-2.5 py-1.5 text-xs font-extrabold"
+                >
+                  Default
+                </button>
+                {canCustomColor ? (
+                  <input
+                    type="color"
+                    value={card.themeAccent2 ?? "#f25ca2"}
+                    onChange={(e) => set("themeAccent2", e.target.value)}
+                    className="h-8 w-10 cursor-pointer rounded-lg border-2 border-ink bg-white"
+                    aria-label="Custom secondary color"
+                  />
+                ) : (
+                  <span className="rounded-lg border-2 border-dashed border-ink/40 px-2.5 py-1.5 text-[0.65rem] font-bold text-ink/50">
+                    Custom color · Pro
+                  </span>
+                )}
+              </div>
+            </section>
+          )}
 
           {/* Content */}
           <section className="space-y-4">

@@ -106,7 +106,9 @@ export async function saveCard(
   const contact = Object.fromEntries(
     Object.entries(input.contact).filter(([, v]) => typeof v === "string" && v.trim()),
   );
-  const theme_overrides = input.themeAccent ? { accent: input.themeAccent } : {};
+  const theme_overrides: { accent?: string; accent2?: string } = {};
+  if (input.themeAccent) theme_overrides.accent = input.themeAccent;
+  if (input.themeAccent2) theme_overrides.accent2 = input.themeAccent2;
 
   const businessName = input.businessName.trim() || "Untitled card";
   const desiredBase = finalizeSlug(input.slug, businessName);

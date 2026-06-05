@@ -25,8 +25,10 @@ export const cardLinkSchema = z.object({
 
 /** Plan-gated visual overrides. Kept minimal for now; templates lean on design tokens. */
 export const themeOverridesSchema = z.object({
-  /** CSS color used as the card's accent (overrides the template default). */
+  /** CSS color used as the card's primary accent (overrides the template default). */
   accent: z.string().optional(),
+  /** Secondary accent — used by two-color templates (gradients, alternating buttons). */
+  accent2: z.string().optional(),
 });
 
 export const businessCardSchema = z.object({

@@ -13,6 +13,7 @@ import { fadeInUp, staggerContainer } from "@/design/motion";
 export default function Monolith({ card }: TemplateProps) {
   const reduce = useReducedMotion();
   const accent = card.theme?.accent ?? "#6d5ef7";
+  const accent2 = card.theme?.accent2 ?? "#f25ca2";
   const contact = getContactActions(card);
   const links = getLinkActions(card);
   const primaryContact = contact.filter((c) => c.href).slice(0, 3);
@@ -20,7 +21,7 @@ export default function Monolith({ card }: TemplateProps) {
   return (
     <div
       className="relative flex min-h-[100dvh] w-full flex-col overflow-hidden px-6 pb-28 pt-14"
-      style={{ background: `linear-gradient(150deg, ${accent} 0%, #3a2db5 55%, #f25ca2 130%)` }}
+      style={{ background: `linear-gradient(150deg, ${accent} 0%, #3a2db5 55%, ${accent2} 130%)` }}
     >
       {/* Subtle grain/noise via radial highlights */}
       <div

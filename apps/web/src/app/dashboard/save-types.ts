@@ -10,5 +10,6 @@ export type SaveCardInput = {
   contact: { phone?: string; email?: string; website?: string; address?: string; hours?: string };
   links: { label: string; url: string; icon?: string }[];
   themeAccent: string | null;
+  themeAccent2: string | null;
   published: boolean;
 };

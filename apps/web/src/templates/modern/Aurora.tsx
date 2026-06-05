@@ -13,6 +13,7 @@ import { fadeInUp, staggerContainer } from "@/design/motion";
 export default function Aurora({ card }: TemplateProps) {
   const reduce = useReducedMotion();
   const accent = card.theme?.accent ?? "#8b7dff";
+  const accent2 = card.theme?.accent2 ?? "#f25ca2";
   const contact = getContactActions(card);
   const links = getLinkActions(card);
 
@@ -53,7 +54,7 @@ export default function Aurora({ card }: TemplateProps) {
         <motion.div variants={fadeInUp} className="mx-auto mb-5 h-20 w-20">
           <div
             className="flex h-full w-full items-center justify-center rounded-2xl font-display text-2xl font-bold text-white shadow-lg"
-            style={{ background: `linear-gradient(135deg, ${accent}, #f25ca2)` }}
+            style={{ background: `linear-gradient(135deg, ${accent}, ${accent2})` }}
           >
             {card.logoUrl ? (
               // eslint-disable-next-line @next/next/no-img-element

@@ -19,6 +19,7 @@ const container: Variants = { hidden: {}, visible: { transition: { staggerChildr
 export default function Pop({ card }: TemplateProps) {
   const reduce = useReducedMotion();
   const accent = card.theme?.accent ?? "#ff4d6d";
+  const accent2 = card.theme?.accent2 ?? "#4dccff";
   const contact = getContactActions(card);
   const links = getLinkActions(card);
 
@@ -89,7 +90,7 @@ export default function Pop({ card }: TemplateProps) {
                 whileHover={{ x: 2, y: -2 }}
                 whileTap={{ x: 2, y: 2 }}
                 className="flex items-center gap-3 rounded-2xl border-[3px] border-black px-4 py-3 text-sm font-extrabold text-black no-underline shadow-[4px_4px_0_0_#000]"
-                style={{ background: i % 2 === 0 ? accent : "#4dccff", color: i % 2 === 0 ? "#fff" : "#000" }}
+                style={{ background: i % 2 === 0 ? accent : accent2, color: i % 2 === 0 ? "#fff" : "#000" }}
               >
                 <Icon size={16} strokeWidth={2.5} />
                 <span className="truncate">{label}</span>
