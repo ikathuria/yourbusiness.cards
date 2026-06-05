@@ -3,9 +3,12 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
-import { draftSlug } from "@/lib/slug";
+import { draftSlug, finalizeSlug, randomSuffix } from "@/lib/slug";
 import { resolveTemplate } from "@/templates/registry";
 import { PLAN_FEATURES, type Plan } from "@/features/billing/plans";
+import { getAccount } from "@/lib/supabase/auth";
+import { createAdminClient, isAdminConfigured } from "@/lib/supabase/admin";
+import { generateQrArt } from "@/features/generate/qr-art";
 import type { SaveCardInput } from "./save-types";
 
 export async function signOut() {
@@ -88,8 +91,12 @@ export async function deleteCard(formData: FormData) {
   revalidatePath("/dashboard");
 }
 
-/** Persist editor changes (owner-scoped). Replaces the card's links. */
-export async function saveCard(input: SaveCardInput): Promise<{ ok: boolean; error?: string }> {
+/** Persist editor changes (owner-scoped). Replaces the card's links.
+ * Returns the canonical slug (may differ from the requested one if it
+ * collided with another card and a suffix was appended). */
+export async function saveCard(
+  input: SaveCardInput,
+): Promise<{ ok: boolean; error?: string; slug?: string }> {
   const supabase = await createClient();
   const {
     data: { user },
@@ -101,20 +108,40 @@ export async function saveCard(input: SaveCardInput): Promise<{ ok: boolean; err
   );
   const theme_overrides = input.themeAccent ? { accent: input.themeAccent } : {};
 
-  const { error } = await supabase
-    .from("business_cards")
-    .update({
-      template_id: input.templateId,
-      business_name: input.businessName.trim() || "Untitled card",
-      tagline: input.tagline.trim() || null,
-      description: input.description.trim() || null,
-      contact,
-      theme_overrides,
-      published: input.published,
-    })
-    .eq("id", input.id)
-    .eq("account_id", user.id);
-  if (error) return { ok: false, error: error.message };
+  const businessName = input.businessName.trim() || "Untitled card";
+  const desiredBase = finalizeSlug(input.slug, businessName);
+
+  // Try the desired slug; on a unique-slug collision (possibly with a card we
+  // can't see under RLS), append a random suffix and retry.
+  let slug = desiredBase;
+  let lastError: string | null = null;
+  for (let attempt = 0; attempt < 5; attempt++) {
+    const { error } = await supabase
+      .from("business_cards")
+      .update({
+        slug,
+        template_id: input.templateId,
+        business_name: businessName,
+        tagline: input.tagline.trim() || null,
+        description: input.description.trim() || null,
+        contact,
+        theme_overrides,
+        published: input.published,
+      })
+      .eq("id", input.id)
+      .eq("account_id", user.id);
+    if (!error) {
+      lastError = null;
+      break;
+    }
+    if (error.code === "23505") {
+      slug = `${desiredBase}-${randomSuffix()}`;
+      lastError = "That link is taken — pick another.";
+      continue;
+    }
+    return { ok: false, error: error.message };
+  }
+  if (lastError) return { ok: false, error: lastError };
 
   // Replace links with the current ordered set.
   await supabase.from("card_links").delete().eq("card_id", input.id);
@@ -127,5 +154,57 @@ export async function saveCard(input: SaveCardInput): Promise<{ ok: boolean; err
   }
 
   revalidatePath("/dashboard");
-  return { ok: true };
+  return { ok: true, slug };
+}
+
+/**
+ * Premium: generate AI QR art for a card, store it in Supabase Storage, and save
+ * the public URL on the card. Returns the URL for the editor to preview.
+ */
+export async function generateCardQrArt(input: {
+  cardId: string;
+  prompt: string;
+}): Promise<{ ok: boolean; url?: string; error?: string }> {
+  const account = await getAccount();
+  if (!account) return { ok: false, error: "Not signed in." };
+  if (!PLAN_FEATURES[account.plan].ai) return { ok: false, error: "AI QR art is a Premium feature." };
+  if (!isAdminConfigured()) return { ok: false, error: "Storage isn't configured on the server." };
+
+  const supabase = await createClient();
+  const { data: card } = await supabase
+    .from("business_cards")
+    .select("id, slug")
+    .eq("id", input.cardId)
+    .eq("account_id", account.id)
+    .maybeSingle<{ id: string; slug: string }>();
+  if (!card) return { ok: false, error: "Card not found." };
+
+  const base = (process.env.NEXT_PUBLIC_APP_URL || "https://yourbusiness.cards").replace(/\/$/, "");
+  const target = `${base}/c/${card.slug}?src=qr`;
+
+  const result = await generateQrArt({ url: target, prompt: input.prompt });
+  if (!result.ok) return { ok: false, error: result.error };
+
+  // Upload with the service role (bucket writes bypass RLS); path is per-card so
+  // regenerating overwrites the previous art.
+  const admin = createAdminClient();
+  const path = `${account.id}/${card.id}.png`;
+  const { error: uploadError } = await admin.storage
+    .from("qr-art")
+    .upload(path, result.bytes, { contentType: result.contentType, upsert: true });
+  if (uploadError) return { ok: false, error: `Upload failed: ${uploadError.message}` };
+
+  const { data: pub } = admin.storage.from("qr-art").getPublicUrl(path);
+  // Cache-bust so the editor preview shows the new art after a regenerate.
+  const url = `${pub.publicUrl}?v=${Date.now()}`;
+
+  const { error: updateError } = await supabase
+    .from("business_cards")
+    .update({ qr_art_url: url })
+    .eq("id", card.id)
+    .eq("account_id", account.id);
+  if (updateError) return { ok: false, error: updateError.message };
+
+  revalidatePath("/dashboard");
+  return { ok: true, url };
 }
