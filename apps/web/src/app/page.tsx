@@ -12,6 +12,7 @@ import { SiteNav } from "@/components/site/SiteNav";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { Sticker } from "@/components/site/Sticker";
 import { PhoneFrame } from "@/components/PhoneFrame";
+import { sampleCardFor } from "@/features/cards/seed";
 
 const rise: Variants = {
   hidden: { opacity: 0, y: 26 },
@@ -25,10 +26,13 @@ const STEPS = [
   { n: "3", color: "bg-coral text-ink", title: "Share your link + QR", body: "Drop the link in ads, or print the QR on flyers and your storefront." },
 ];
 
+// Slugs are resolved from the single seed source (sampleCardFor) so the landing
+// page never drifts from the gallery/renderer data.
+const HERO_TEMPLATE = "pop";
 const SHOWCASE = [
-  { slug: "scoops-parlour", name: "Pop" },
-  { slug: "lumen-coffee", name: "Aurora" },
-  { slug: "hale-mercer", name: "Editorial" },
+  { id: "pop", name: "Pop" },
+  { id: "aurora", name: "Aurora" },
+  { id: "editorial", name: "Editorial" },
 ];
 
 const TIERS = [
@@ -96,7 +100,7 @@ export default function Home() {
               60-sec setup ✨
             </div>
             <div className="relative z-10 rounded-[2.5rem] border-2 border-ink shadow-[6px_6px_0_0_#161320]">
-              <PhoneFrame src="/c/scoops-parlour" title="Pop template preview" scale={0.64} />
+              <PhoneFrame src={`/c/${sampleCardFor(HERO_TEMPLATE).slug}`} title="Pop template preview" scale={0.64} />
             </div>
           </div>
         </motion.div>
@@ -144,9 +148,9 @@ export default function Home() {
         </div>
         <div className="mt-10 grid grid-cols-1 justify-items-center gap-8 sm:grid-cols-3">
           {SHOWCASE.map((t) => (
-            <div key={t.slug} className="flex flex-col items-center">
+            <div key={t.id} className="flex flex-col items-center">
               <div className="rounded-[2.2rem] border-2 border-ink shadow-[5px_5px_0_0_#161320]">
-                <PhoneFrame src={`/c/${t.slug}`} title={`${t.name} preview`} scale={0.56} />
+                <PhoneFrame src={`/c/${sampleCardFor(t.id).slug}`} title={`${t.name} preview`} scale={0.56} />
               </div>
               <span className="mt-4 rounded-lg border-2 border-ink bg-paper-2 px-3 py-1 font-display text-sm font-extrabold shadow-[2px_2px_0_0_#161320]">
                 {t.name}
