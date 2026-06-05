@@ -1,161 +1,187 @@
 /**
- * Seed cards — sample businesses used by the gallery and the public renderer
- * before the Supabase data layer (Milestone 3) lands. Each template id maps to a
- * tailored sample so previews look real.
+ * Seed cards — sample businesses used by the gallery and the public renderer.
+ * Each template id maps to a tailored sample so previews look real.
+ *
+ * These are well-known FICTIONAL pop-culture brands chosen to show off each
+ * template's personality (demo/showcase only — swap to original parody names
+ * before any real launch, as the names are trademarked).
  */
 import type { BusinessCard } from "./types";
 
 export const sampleCards: Record<string, BusinessCard> = {
+  // ── Modern Premium ──────────────────────────────────────────
   aurora: {
-    slug: "lumen-coffee",
+    slug: "wayne-enterprises",
     templateId: "aurora",
-    businessName: "Lumen Coffee",
-    tagline: "Specialty roasts, all day",
-    description: "Single-origin espresso, slow bar, and pastries baked in-house every morning.",
+    businessName: "Wayne Enterprises",
+    tagline: "Building a brighter Gotham",
+    description:
+      "Aerospace, biotech, and applied sciences — innovating responsibly for a safer tomorrow.",
     contact: {
-      phone: "+1 (415) 555-0123",
-      website: "lumen.coffee",
-      address: "812 Valencia St, San Francisco, CA",
-      hours: "Mon–Sun · 7am–6pm",
+      email: "info@wayne.enterprises",
+      website: "wayne.enterprises",
+      address: "1007 Mountain Dr, Gotham City",
     },
     links: [
-      { label: "Order ahead", url: "lumen.coffee/order", icon: "link" },
-      { label: "Instagram", url: "instagram.com/lumencoffee", icon: "instagram" },
-      { label: "Our menu", url: "lumen.coffee/menu", icon: "link" },
+      { label: "Our divisions", url: "wayne.enterprises/divisions", icon: "link" },
+      { label: "Wayne Foundation", url: "wayne.enterprises/foundation", icon: "link" },
+      { label: "Careers", url: "wayne.enterprises/careers", icon: "link" },
     ],
+    theme: { accent: "#c9a227" },
   },
   halo: {
-    slug: "maison-bloom",
+    slug: "lumon-industries",
     templateId: "halo",
-    businessName: "Maison Bloom",
-    tagline: "Floral design studio",
-    description: "Seasonal arrangements, weddings, and weekly subscriptions for homes and offices.",
+    businessName: "Lumon Industries",
+    tagline: "The work is mysterious and important",
+    description:
+      "A diversified enterprise advancing the science of a balanced life since 1865. Praise Kier.",
     contact: {
-      phone: "+1 (212) 555-0177",
-      email: "hello@maisonbloom.co",
-      website: "maisonbloom.co",
-      address: "45 Greenwich Ave, New York, NY",
+      email: "outreach@lumon.industries",
+      website: "lumon.industries",
+      address: "Kier, PE",
     },
     links: [
-      { label: "Book a consultation", url: "maisonbloom.co/book", icon: "link" },
-      { label: "Instagram", url: "instagram.com/maisonbloom", icon: "instagram" },
+      { label: "Explore severance", url: "lumon.industries/severance", icon: "link" },
+      { label: "Our history", url: "lumon.industries/kier", icon: "link" },
     ],
+    theme: { accent: "#3f9aa6" },
   },
   monolith: {
-    slug: "vertex-studio",
+    slug: "stark-industries",
     templateId: "monolith",
-    businessName: "Vertex Studio",
-    tagline: "Brand & product design",
-    description: "We build identities and interfaces for ambitious teams. Currently booking Q3.",
+    businessName: "Stark Industries",
+    tagline: "The future, engineered",
+    description:
+      "Clean energy, advanced robotics, and aerospace. Privatizing world peace, one breakthrough at a time.",
     contact: {
-      email: "studio@vertex.design",
-      website: "vertex.design",
-      phone: "+1 (310) 555-0199",
+      email: "press@stark.com",
+      website: "stark.com",
+      phone: "+1 (212) 970-4133",
+      address: "200 Park Ave, New York, NY",
     },
     links: [
-      { label: "See our work", url: "vertex.design/work", icon: "link" },
-      { label: "Start a project", url: "vertex.design/contact", icon: "link" },
-      { label: "LinkedIn", url: "linkedin.com/company/vertex", icon: "linkedin" },
+      { label: "Stark tech", url: "stark.com/tech", icon: "link" },
+      { label: "Clean energy", url: "stark.com/arc", icon: "link" },
+      { label: "Newsroom", url: "stark.com/news", icon: "link" },
     ],
+    theme: { accent: "#e0322b" },
   },
+
+  // ── Bold & Expressive ───────────────────────────────────────
   pop: {
-    slug: "scoops-parlour",
+    slug: "krusty-krab",
     templateId: "pop",
-    businessName: "Scoops Parlour",
-    tagline: "24 wild flavors",
-    description: "Small-batch ice cream, sundaes, and shakes. Made fresh, scooped with joy.",
+    businessName: "The Krusty Krab",
+    tagline: "Home of the Krabby Patty",
+    description:
+      "The finest eating establishment under the sea. Secret-formula burgers, served fresh and fast.",
     contact: {
-      phone: "+1 (305) 555-0144",
-      website: "scoops.fun",
-      address: "120 Ocean Dr, Miami, FL",
+      phone: "+1 (555) 836-2274",
+      website: "krustykrab.sea",
+      address: "831 Bottom Feeder Ln, Bikini Bottom",
+      hours: "Mon–Sun · 11am–9pm",
     },
     links: [
-      { label: "Today's flavors", url: "scoops.fun/flavors", icon: "link" },
-      { label: "Order a cake", url: "scoops.fun/cakes", icon: "link" },
+      { label: "See the menu", url: "krustykrab.sea/menu", icon: "link" },
+      { label: "Krabby of the day", url: "krustykrab.sea/special", icon: "link" },
     ],
+    theme: { accent: "#ef5e3a" },
   },
   neon: {
-    slug: "fade-house",
+    slug: "duff-beer",
     templateId: "neon",
-    businessName: "Fade House",
-    tagline: "Cuts after dark",
-    description: "Precision fades, hot-towel shaves, and beard work. Walk-ins till midnight.",
+    businessName: "Duff Beer",
+    tagline: "Can't get enough of that wonderful Duff",
+    description:
+      "Brewed with the finest hops since 1972. Ice-cold and always refreshing. Please drink responsibly.",
     contact: {
-      phone: "+1 (702) 555-0188",
-      website: "fadehouse.la",
-      address: "9 Fremont St, Las Vegas, NV",
-      hours: "Tue–Sun · 2pm–12am",
+      website: "duff.beer",
+      address: "Springfield",
+      hours: "Tap room · daily till 2am",
     },
     links: [
-      { label: "Book a chair", url: "fadehouse.la/book", icon: "link" },
-      { label: "Instagram", url: "instagram.com/fadehouse", icon: "instagram" },
+      { label: "Find a tap near you", url: "duff.beer/locator", icon: "link" },
+      { label: "Brewery tours", url: "duff.beer/tours", icon: "link" },
+      { label: "Instagram", url: "instagram.com/duffbeer", icon: "instagram" },
     ],
+    theme: { accent: "#ff2e4d" },
   },
   carnival: {
-    slug: "sugar-petal",
+    slug: "willy-wonka",
     templateId: "carnival",
-    businessName: "Sugar & Petal",
-    tagline: "Cakes & blooms",
-    description: "Custom cakes and fresh flowers for birthdays, weddings, and just-because days.",
+    businessName: "Wonka Chocolate Factory",
+    tagline: "Pure imagination, pure chocolate",
+    description:
+      "Magical confections, everlasting gobstoppers, and golden-ticket tours. Scrumdiddlyumptious since 1964.",
     contact: {
-      phone: "+1 (503) 555-0166",
-      email: "hi@sugarpetal.shop",
-      website: "sugarpetal.shop",
+      email: "goldenticket@wonka.chocolate",
+      website: "wonka.chocolate",
     },
     links: [
-      { label: "Order a cake", url: "sugarpetal.shop/order", icon: "link" },
-      { label: "Wedding inquiries", url: "sugarpetal.shop/weddings", icon: "link" },
+      { label: "Win a golden ticket", url: "wonka.chocolate/ticket", icon: "link" },
+      { label: "Our sweets", url: "wonka.chocolate/shop", icon: "link" },
     ],
+    theme: { accent: "#7e57c2" },
   },
+
+  // ── Clean & Classic ─────────────────────────────────────────
   editorial: {
-    slug: "hale-mercer",
+    slug: "daily-planet",
     templateId: "editorial",
-    businessName: "Hale & Mercer",
-    tagline: "Attorneys at Law",
-    description: "Estate planning, real estate, and small-business counsel. Trusted since 1998.",
+    businessName: "The Daily Planet",
+    tagline: "Metropolis since 1938",
+    description:
+      "Award-winning journalism covering Metropolis and beyond. Truth, justice, and the stories that matter.",
     contact: {
-      phone: "+1 (617) 555-0133",
-      email: "office@halemercer.law",
-      website: "halemercer.law",
-      address: "200 Beacon St, Boston, MA",
+      phone: "+1 (212) 555-1938",
+      email: "tips@dailyplanet.news",
+      website: "dailyplanet.news",
+      address: "1000 Broadway, Metropolis",
     },
     links: [
-      { label: "Schedule a consultation", url: "halemercer.law/contact", icon: "link" },
+      { label: "Subscribe", url: "dailyplanet.news/subscribe", icon: "link" },
+      { label: "Today's front page", url: "dailyplanet.news/today", icon: "link" },
     ],
+    theme: { accent: "#234a8f" },
   },
   embossed: {
-    slug: "northgate-plumbing",
+    slug: "dunder-mifflin",
     templateId: "embossed",
-    businessName: "Northgate Plumbing",
-    tagline: "Licensed & insured",
-    description: "Residential and commercial plumbing. Same-day service, upfront pricing, no surprises.",
+    businessName: "Dunder Mifflin",
+    tagline: "Limitless paper in a paperless world",
+    description:
+      "Your local source for paper and office supplies. Regional, reliable, and refreshingly personal.",
     contact: {
-      phone: "+1 (614) 555-0111",
-      email: "dispatch@northgate.plumbing",
-      website: "northgate.plumbing",
-      address: "Serving Greater Columbus, OH",
+      phone: "+1 (570) 555-0000",
+      email: "scranton@dundermifflin.com",
+      website: "dundermifflin.com",
+      address: "1725 Slough Ave, Scranton, PA",
     },
     links: [
-      { label: "Request service", url: "northgate.plumbing/book", icon: "link" },
-      { label: "Get a quote", url: "northgate.plumbing/quote", icon: "link" },
+      { label: "Shop paper", url: "dundermifflin.com/paper", icon: "link" },
+      { label: "Request a quote", url: "dundermifflin.com/quote", icon: "link" },
     ],
+    theme: { accent: "#2f5d8a" },
   },
   linen: {
-    slug: "flour-stone",
+    slug: "central-perk",
     templateId: "linen",
-    businessName: "Flour & Stone",
-    tagline: "Wood-fired bakery",
-    description: "Naturally leavened sourdough, morning pastries, and stone-milled flour. Baked daily.",
+    businessName: "Central Perk",
+    tagline: "Where everyone knows your order",
+    description:
+      "Coffee, couches, and good company in the heart of the Village. Open mic every Thursday.",
     contact: {
-      phone: "+1 (415) 555-0150",
-      website: "flourandstone.bakery",
-      address: "27 Mill Ln, Sonoma, CA",
-      hours: "Wed–Sun · 7am–2pm",
+      phone: "+1 (212) 555-2468",
+      website: "centralperk.cafe",
+      address: "90 Bedford St, New York, NY",
+      hours: "Mon–Sun · 6am–11pm",
     },
     links: [
-      { label: "Pre-order bread", url: "flourandstone.bakery/order", icon: "link" },
-      { label: "Visit us", url: "flourandstone.bakery/visit", icon: "link" },
+      { label: "Our menu", url: "centralperk.cafe/menu", icon: "link" },
+      { label: "Open mic night", url: "centralperk.cafe/openmic", icon: "link" },
     ],
+    theme: { accent: "#b5651d" },
   },
 };
 
