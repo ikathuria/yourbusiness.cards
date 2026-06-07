@@ -6,6 +6,7 @@ import type { NextRequest } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { getStripe, isStripeConfigured } from "@/lib/stripe";
 import { priceIdFor, type PaidPlan } from "@/features/billing/plans";
+import { getBaseUrl } from "@/lib/url";
 
 export const runtime = "nodejs";
 
@@ -51,7 +52,7 @@ export async function POST(req: NextRequest) {
     await supabase.from("accounts").update({ stripe_customer_id: customerId }).eq("id", user.id);
   }
 
-  const origin = process.env.NEXT_PUBLIC_APP_URL?.replace(/\/$/, "") || new URL(req.url).origin;
+  const origin = await getBaseUrl();
   const session = await stripe.checkout.sessions.create({
     mode: "subscription",
     customer: customerId,

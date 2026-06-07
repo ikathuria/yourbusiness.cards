@@ -9,6 +9,7 @@ import { PLAN_FEATURES, type Plan } from "@/features/billing/plans";
 import { getAccount } from "@/lib/supabase/auth";
 import { createAdminClient, isAdminConfigured } from "@/lib/supabase/admin";
 import { generateQrArt } from "@/features/generate/qr-art";
+import { getBaseUrl } from "@/lib/url";
 import type { SaveCardInput } from "./save-types";
 
 export async function signOut() {
@@ -181,7 +182,7 @@ export async function generateCardQrArt(input: {
     .maybeSingle<{ id: string; slug: string }>();
   if (!card) return { ok: false, error: "Card not found." };
 
-  const base = (process.env.NEXT_PUBLIC_APP_URL || "https://yourbusiness.cards").replace(/\/$/, "");
+  const base = await getBaseUrl();
   const target = `${base}/c/${card.slug}?src=qr`;
 
   const result = await generateQrArt({ url: target, prompt: input.prompt });

@@ -57,9 +57,16 @@ export function CardEditor({
   const [qrPrompt, setQrPrompt] = useState("");
   const [qrPending, setQrPending] = useState(false);
   const [qrError, setQrError] = useState<string | null>(null);
-  const appUrl = (process.env.NEXT_PUBLIC_APP_URL ?? "yourbusiness.cards")
-    .replace(/^https?:\/\//, "")
-    .replace(/\/$/, "");
+  // Link-prefix label: start from the env (SSR-stable), then correct to the real
+  // host after mount so it never shows a stale localhost on a deployed site.
+  const [appUrl, setAppUrl] = useState(
+    (process.env.NEXT_PUBLIC_APP_URL ?? "yourbusiness.cards")
+      .replace(/^https?:\/\//, "")
+      .replace(/\/$/, ""),
+  );
+  useEffect(() => {
+    if (typeof window !== "undefined") setAppUrl(window.location.host);
+  }, []);
 
   // Build the BusinessCard the preview renders.
   const previewCard = useMemo<BusinessCard>(

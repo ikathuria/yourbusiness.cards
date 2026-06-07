@@ -8,6 +8,7 @@
  */
 import QRCode from "qrcode";
 import type { NextRequest } from "next/server";
+import { getBaseUrl } from "@/lib/url";
 
 export const runtime = "nodejs";
 
@@ -20,13 +21,13 @@ function color(value: string | null, fallback: string): string {
 }
 
 export async function GET(req: NextRequest) {
-  const { searchParams, origin } = new URL(req.url);
+  const { searchParams } = new URL(req.url);
   const slug = searchParams.get("slug");
   if (!slug || !/^[a-z0-9-]+$/.test(slug)) {
     return new Response("Missing or invalid 'slug'", { status: 400 });
   }
 
-  const base = process.env.NEXT_PUBLIC_APP_URL?.replace(/\/$/, "") || origin;
+  const base = await getBaseUrl();
   const target = `${base}/c/${slug}?src=qr`; // tag scans for analytics
 
   const dark = color(searchParams.get("fg"), "#161320");
